@@ -1049,7 +1049,7 @@ export function resolvePartialStructs(ctx: CompilerContext) {
                 }
 
                 // TODO how to count nested structs length?    
-                if (remainingBits - fieldBits > 0) {
+                if (remainingBits - fieldBits >= 0) {
                    remainingBits -= fieldBits;
                    newType.fields.push(f);
                 } else {
