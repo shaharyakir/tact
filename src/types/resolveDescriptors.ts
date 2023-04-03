@@ -929,6 +929,8 @@ export function resolveDescriptors(ctx: CompilerContext) {
 
     for (let a of ast.types) {
         if (a.kind === "def_struct" && a.message && typesWithBounceFunction[a.name]) {
+            let remainingBits = 224;
+    
             const originalType = types[a.name];
 
             types[toBounced(a.name)] = {
@@ -936,7 +938,7 @@ export function resolveDescriptors(ctx: CompilerContext) {
                 origin: originalType.origin,
                 name: toBounced(originalType.name),
                 uid: uidForName(toBounced(originalType.name), types),
-                header: originalType.header,
+                header: null,
                 tlb: null, // TODO?
                 signature: null, // TODO?
                 fields: [],
@@ -950,14 +952,33 @@ export function resolveDescriptors(ctx: CompilerContext) {
                 constants: [],
             };
 
-            types[a.name].fields.slice(0,1).forEach((f: FieldDescription) => {
-                console.log(f, "SHAHAR")
-                // TODO limit fields
-                // TODO should we process ~ structs if there isn't a bounced handler?
-                // BUILD PARTIAL STRUCT
+            for (const f of types[a.name].fields) {
+                if (f.abi.type.kind !== "simple") break;
+
+                // console.log(f.abi.type.format, f.abi.type.type, a.name)
+
+                let fieldBits = f.abi.type.optional ? 1 : 0;
+                if (Number.isInteger(f.abi.type.format)) {
+                    fieldBits += f.abi.type.format as number;
+                } else if (f.abi.type.format === "coins") {
+                    fieldBits += 124;
+                } else if (f.abi.type.type === "address") {
+                    fieldBits += 267;
+                } else if (f.abi.type.type === "bool") {
+                    fieldBits += 1;
+                } else {
+                    // Unsupported - all others (slice, builder, nested structs)
+                    break;
+                }
+
                 // TODO how to count nested structs length?    
-                types[toBounced(a.name)].fields.push(f);
-            })
+                if (remainingBits - fieldBits > 0) {
+                   remainingBits -= fieldBits;
+                   types[toBounced(a.name)].fields.push(f);
+                } else {
+                    break;
+                }
+            }
         }
     }
 

@@ -191,35 +191,45 @@ export type First = {
     $$type: 'First';
     amount: bigint;
     myCoins: bigint;
+    myBool3: boolean;
+    anAddress: Address;
 }
 
 export function storeFirst(src: First) {
     return (builder: Builder) => {
         let b_0 = builder;
-        b_0.storeUint(899738521, 32);
+        b_0.storeUint(3200290616, 32);
         b_0.storeUint(src.amount, 32);
         b_0.storeCoins(src.myCoins);
+        b_0.storeBit(src.myBool3);
+        b_0.storeAddress(src.anAddress);
     };
 }
 
 export function loadFirst(slice: Slice) {
     let sc_0 = slice;
-    if (sc_0.loadUint(32) !== 899738521) { throw Error('Invalid prefix'); }
+    if (sc_0.loadUint(32) !== 3200290616) { throw Error('Invalid prefix'); }
     let _amount = sc_0.loadUintBig(32);
     let _myCoins = sc_0.loadCoins();
-    return { $$type: 'First' as const, amount: _amount, myCoins: _myCoins };
+    let _myBool3 = sc_0.loadBit();
+    let _anAddress = sc_0.loadAddress();
+    return { $$type: 'First' as const, amount: _amount, myCoins: _myCoins, myBool3: _myBool3, anAddress: _anAddress };
 }
 
 function loadTupleFirst(source: TupleReader) {
     let _amount = source.readBigNumber();
     let _myCoins = source.readBigNumber();
-    return { $$type: 'First' as const, amount: _amount, myCoins: _myCoins };
+    let _myBool3 = source.readBoolean();
+    let _anAddress = source.readAddress();
+    return { $$type: 'First' as const, amount: _amount, myCoins: _myCoins, myBool3: _myBool3, anAddress: _anAddress };
 }
 
 function storeTupleFirst(source: First) {
     let builder = new TupleBuilder();
     builder.writeNumber(source.amount);
     builder.writeNumber(source.myCoins);
+    builder.writeBoolean(source.myBool3);
+    builder.writeAddress(source.anAddress);
     return builder.build();
 }
 
@@ -237,9 +247,10 @@ function dictValueParserFirst(): DictionaryValue<First> {
 export type Second = {
     $$type: 'Second';
     amount_bigger: bigint;
+    myBool: boolean;
     thisDoesNotFit: bigint;
     myAddress: Address;
-    myBool: boolean;
+    myBool2: boolean;
     myStruct: MyStruct;
     myStruct2: MyStruct;
 }
@@ -247,11 +258,12 @@ export type Second = {
 export function storeSecond(src: Second) {
     return (builder: Builder) => {
         let b_0 = builder;
-        b_0.storeUint(254871020, 32);
+        b_0.storeUint(391585480, 32);
         b_0.storeUint(src.amount_bigger, 64);
+        b_0.storeBit(src.myBool);
         b_0.storeUint(src.thisDoesNotFit, 256);
         b_0.storeAddress(src.myAddress);
-        b_0.storeBit(src.myBool);
+        b_0.storeBit(src.myBool2);
         b_0.store(storeMyStruct(src.myStruct));
         let b_1 = new Builder();
         b_1.store(storeMyStruct(src.myStruct2));
@@ -261,33 +273,36 @@ export function storeSecond(src: Second) {
 
 export function loadSecond(slice: Slice) {
     let sc_0 = slice;
-    if (sc_0.loadUint(32) !== 254871020) { throw Error('Invalid prefix'); }
+    if (sc_0.loadUint(32) !== 391585480) { throw Error('Invalid prefix'); }
     let _amount_bigger = sc_0.loadUintBig(64);
+    let _myBool = sc_0.loadBit();
     let _thisDoesNotFit = sc_0.loadUintBig(256);
     let _myAddress = sc_0.loadAddress();
-    let _myBool = sc_0.loadBit();
+    let _myBool2 = sc_0.loadBit();
     let _myStruct = loadMyStruct(sc_0);
     let sc_1 = sc_0.loadRef().beginParse();
     let _myStruct2 = loadMyStruct(sc_1);
-    return { $$type: 'Second' as const, amount_bigger: _amount_bigger, thisDoesNotFit: _thisDoesNotFit, myAddress: _myAddress, myBool: _myBool, myStruct: _myStruct, myStruct2: _myStruct2 };
+    return { $$type: 'Second' as const, amount_bigger: _amount_bigger, myBool: _myBool, thisDoesNotFit: _thisDoesNotFit, myAddress: _myAddress, myBool2: _myBool2, myStruct: _myStruct, myStruct2: _myStruct2 };
 }
 
 function loadTupleSecond(source: TupleReader) {
     let _amount_bigger = source.readBigNumber();
+    let _myBool = source.readBoolean();
     let _thisDoesNotFit = source.readBigNumber();
     let _myAddress = source.readAddress();
-    let _myBool = source.readBoolean();
+    let _myBool2 = source.readBoolean();
     const _myStruct = loadTupleMyStruct(source.readTuple());
     const _myStruct2 = loadTupleMyStruct(source.readTuple());
-    return { $$type: 'Second' as const, amount_bigger: _amount_bigger, thisDoesNotFit: _thisDoesNotFit, myAddress: _myAddress, myBool: _myBool, myStruct: _myStruct, myStruct2: _myStruct2 };
+    return { $$type: 'Second' as const, amount_bigger: _amount_bigger, myBool: _myBool, thisDoesNotFit: _thisDoesNotFit, myAddress: _myAddress, myBool2: _myBool2, myStruct: _myStruct, myStruct2: _myStruct2 };
 }
 
 function storeTupleSecond(source: Second) {
     let builder = new TupleBuilder();
     builder.writeNumber(source.amount_bigger);
+    builder.writeBoolean(source.myBool);
     builder.writeNumber(source.thisDoesNotFit);
     builder.writeAddress(source.myAddress);
-    builder.writeBoolean(source.myBool);
+    builder.writeBoolean(source.myBool2);
     builder.writeTuple(storeTupleMyStruct(source.myStruct));
     builder.writeTuple(storeTupleMyStruct(source.myStruct2));
     return builder.build();
@@ -355,8 +370,8 @@ function initSampleContract_init_args(src: SampleContract_init_args) {
 }
 
 async function SampleContract_init() {
-    const __code = Cell.fromBase64('te6ccgECCQEAAbwAART/APSkE/S88sgLAQIBYgIDAo7QAdDTAwFxsKMB+kABINdJgQELuvLgiCDXCwoggQT/uvLQiYMJuvLgiFRQUwNvBPhhAvhi2zxZ2zwwMMj4QwHMfwHKAMntVAQFAJWhd6ME4LnYerpZXPY9CdhzrJUKNs0E4TusalpWyPlmRadeW/vixHME4ECrgDcAzscpnLB1XI5LZYcE4TsunLVmnZbmdB0s2yjN0UkBNO1E0NQB+GPSADCRbeD4KNcLCoMJuvLgids8BgLu7aLt+yEwcCHXScIflTAg1wsf3gKOIyGCEA8xBey6lzHTPwExMH/gAYIQNaDrmbqW0x8BMTB/4DB/4CGCEDWg65m6jhcx0x8BghA1oOuZuvLggdMf+gBZbBJbf+AhghAPMQXsuo6IMds8bBZfBn/gAcAAkTDjDXAHCAACbQCS0x8BghAPMQXsuvLggdM/0//6QAEg10mBAQu68uCIINcLCiCBBP+68tCJgwm68uCIAdIAgQEB1wABAdQB0IEBAdcAATEWFRRDMABU+QGC8M3Q9ZZqN5IiOKaVTukYoWLMWQQJ72XwlM7oHp0LxSu0upN/2zHg');
-    const __system = Cell.fromBase64('te6cckECCwEAAcYAAQHAAQEFoIcVAgEU/wD0pBP0vPLICwMCAWIFBACVoXejBOC52Hq6WVz2PQnYc6yVCjbNBOE7rGpaVsj5ZkWnXlv74sRzBOBAq4A3AM7HKZywdVyOS2WHBOE7Lpy1Zp2W5nQdLNsozdFJAo7QAdDTAwFxsKMB+kABINdJgQELuvLgiCDXCwoggQT/uvLQiYMJuvLgiFRQUwNvBPhhAvhi2zxZ2zwwMMj4QwHMfwHKAMntVAkGAu7tou37ITBwIddJwh+VMCDXCx/eAo4jIYIQDzEF7LqXMdM/ATEwf+ABghA1oOuZupbTHwExMH/gMH/gIYIQNaDrmbqOFzHTHwGCEDWg65m68uCB0x/6AFlsElt/4CGCEA8xBey6jogx2zxsFl8Gf+ABwACRMOMNcAgHAFT5AYLwzdD1lmo3kiI4ppVO6RihYsxZBAnvZfCUzugenQvFK7S6k3/bMeAAktMfAYIQDzEF7Lry4IHTP9P/+kABINdJgQELuvLgiCDXCwoggQT/uvLQiYMJuvLgiAHSAIEBAdcAAQHUAdCBAQHXAAExFhUUQzABNO1E0NQB+GPSADCRbeD4KNcLCoMJuvLgids8CgACbV1b5tQ=');
+    const __code = Cell.fromBase64('te6ccgECCgEAAe8AART/APSkE/S88sgLAQIBYgIDAo7QAdDTAwFxsKMB+kABINdJgQELuvLgiCDXCwoggQT/uvLQiYMJuvLgiFRQUwNvBPhhAvhi2zxZ2zwwMMj4QwHMfwHKAMntVAQFAJWhd6ME4LnYerpZXPY9CdhzrJUKNs0E4TusalpWyPlmRadeW/vixHME4ECrgDcAzscpnLB1XI5LZYcE4TsunLVmnZbmdB0s2yjN0UkBNO1E0NQB+GPSADCRbeD4KNcLCoMJuvLgids8BgPS7aLt+yEwcCHXScIflTAg1wsf3gKOLSGCEBdXHsi6mjHTP9IAWWwSW3/gAYIQvsCPOLqd0x/6ANIAVSBsE18Df+Awf+AhghC+wI84uuMCIYIQF1ceyLqOiDHbPGwXXwd/4AHAAJEw4w1wBwgJAAJtAHYx0x8BghC+wI84uvLggdMf+gDSAPpAASDXSYEBC7ry4Igg1wsKIIEE/7ry0ImDCbry4IgUQzBsFF8EfwCY0x8BghAXVx7IuvLggdM/0gDT//pAASDXSYEBC7ry4Igg1wsKIIEE/7ry0ImDCbry4IgB0gCBAQHXAAEB1AHQgQEB1wABMRcWFRRDMABU+QGC8M3Q9ZZqN5IiOKaVTukYoWLMWQQJ72XwlM7oHp0LxSu0upN/2zHg');
+    const __system = Cell.fromBase64('te6cckECDAEAAfkAAQHAAQEFoIcVAgEU/wD0pBP0vPLICwMCAWIFBACVoXejBOC52Hq6WVz2PQnYc6yVCjbNBOE7rGpaVsj5ZkWnXlv74sRzBOBAq4A3AM7HKZywdVyOS2WHBOE7Lpy1Zp2W5nQdLNsozdFJAo7QAdDTAwFxsKMB+kABINdJgQELuvLgiCDXCwoggQT/uvLQiYMJuvLgiFRQUwNvBPhhAvhi2zxZ2zwwMMj4QwHMfwHKAMntVAoGA9Ltou37ITBwIddJwh+VMCDXCx/eAo4tIYIQF1ceyLqaMdM/0gBZbBJbf+ABghC+wI84up3TH/oA0gBVIGwTXwN/4DB/4CGCEL7Ajzi64wIhghAXVx7Iuo6IMds8bBdfB3/gAcAAkTDjDXAJCAcAVPkBgvDN0PWWajeSIjimlU7pGKFizFkECe9l8JTO6B6dC8UrtLqTf9sx4ACY0x8BghAXVx7IuvLggdM/0gDT//pAASDXSYEBC7ry4Igg1wsKIIEE/7ry0ImDCbry4IgB0gCBAQHXAAEB1AHQgQEB1wABMRcWFRRDMAB2MdMfAYIQvsCPOLry4IHTH/oA0gD6QAEg10mBAQu68uCIINcLCiCBBP+68tCJgwm68uCIFEMwbBRfBH8BNO1E0NQB+GPSADCRbeD4KNcLCoMJuvLgids8CwACbUWuIWM=');
     let builder = beginCell();
     builder.storeRef(__system);
     builder.storeUint(0, 1);

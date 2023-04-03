@@ -48,12 +48,15 @@ PROGRAM{
   $First$_load PROCINLINE:<{
     32 LDU
     SWAP
-    899738521 PUSHINT
+    3200290616 PUSHINT
     EQUAL
     129 THROWIFNOT
     32 LDU
     LDGRAMS
-    -ROT
+    1 LDI
+    __tact_load_address INLINECALLDICT
+    s1 s4 XCHG
+    s3 s3 s0 XCHG3
   }>
   $MyStruct$_load PROCINLINE:<{
     257 PUSHINT
@@ -63,10 +66,11 @@ PROGRAM{
   $Second$_load PROCREF:<{
     32 LDU
     SWAP
-    254871020 PUSHINT
+    391585480 PUSHINT
     EQUAL
     129 THROWIFNOT
     64 LDU
+    1 LDI
     256 LDU
     __tact_load_address INLINECALLDICT
     SWAP
@@ -78,6 +82,7 @@ PROGRAM{
     CTOS
     $MyStruct$_load INLINECALLDICT
     NIP
+    s1 s7 XCHG
     s1 s6 XCHG
     s1 s5 XCHG
     s1 s4 XCHG
@@ -85,11 +90,14 @@ PROGRAM{
   }>
   $First$_load_bounced PROCINLINE:<{
     32 LDU
-    SWAP
+    LDGRAMS
+    1 LDI
+    3 -ROLL
   }>
   $Second$_load_bounced PROCINLINE:<{
     64 LDU
-    SWAP
+    1 LDI
+    -ROT
   }>
   $SampleContract$_contract_init PROCREF:<{
     PUSHNULL
@@ -125,10 +133,10 @@ PROGRAM{
     c4 POP
   }>
   $SampleContract$_receive_binary_First PROCINLINE:<{
-    2DROP
+    4 BLKDROP
   }>
   $SampleContract$_receive_binary_Second PROCINLINE:<{
-    6 BLKDROP
+    7 BLKDROP
   }>
   $SampleContract$_receive_text_cdd0f5966a37922238a6954ee918a162cc590409ef65f094cee81e9d0bc52bb4 PROCINLINE:<{
   }>
@@ -136,10 +144,10 @@ PROGRAM{
     DROP
   }>
   $SampleContract$_receive_binary_bounce_Second PROCINLINE:<{
-    DROP
+    2DROP
   }>
   $SampleContract$_receive_binary_bounce_First PROCINLINE:<{
-    DROP
+    3 BLKDROP
   }>
   supported_interfaces PROC:<{
     123515602279859691144772641439386770278 PUSHINT
@@ -148,7 +156,7 @@ PROGRAM{
     209474421377847335869795010607481022628 PUSHINT
   }>
   get_abi_ipfs PROC:<{
-    x{697066733a2f2f516d5462543241366931687671484a4e67684641526e703545725047584a72647537614743504559425650563142} PUSHSLICE
+    x{697066733a2f2f516d554c74564c534248544846364a73574b6d4d5872546d326e3142615441764659465878374865626246506965} PUSHSLICE
   }>
   lazy_deployment_completed PROC:<{
     c4 PUSH
@@ -174,21 +182,21 @@ PROGRAM{
     s0 s2 XCHG
     IFJMP:<{
       OVER
-      254871020 PUSHINT
+      391585480 PUSHINT
       EQUAL
       IFJMP:<{
         NIP
         $Second$_load_bounced INLINECALLDICT
-        NIP
+        1 2 BLKDROP2
         $SampleContract$_receive_binary_bounce_Second INLINECALLDICT
         TRUE
       }>
       SWAP
-      899738521 PUSHINT
+      3200290616 PUSHINT
       EQUAL
       IFJMP:<{
         $First$_load_bounced INLINECALLDICT
-        NIP
+        1 3 BLKDROP2
         $SampleContract$_receive_binary_bounce_First INLINECALLDICT
         TRUE
       }>
@@ -196,22 +204,22 @@ PROGRAM{
       TRUE
     }>
     OVER
-    899738521 PUSHINT
+    3200290616 PUSHINT
     EQUAL
     IFJMP:<{
       NIP
       $First$_load INLINECALLDICT
-      1 2 BLKDROP2
+      1 4 BLKDROP2
       $SampleContract$_receive_binary_First INLINECALLDICT
       TRUE
     }>
     OVER
-    254871020 PUSHINT
+    391585480 PUSHINT
     EQUAL
     IFJMP:<{
       NIP
       $Second$_load INLINECALLDICT
-      1 6 BLKDROP2
+      1 7 BLKDROP2
       $SampleContract$_receive_binary_Second INLINECALLDICT
       TRUE
     }>

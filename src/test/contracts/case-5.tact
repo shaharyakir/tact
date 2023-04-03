@@ -1,13 +1,16 @@
 message First {
     amount: Int as uint32;
     myCoins: Int as coins;
+    myBool3: Bool;
+    anAddress: Address;
 }
 
 message Second {
     amount_bigger: Int as uint64;
+    myBool: Bool;
     thisDoesNotFit: Int as uint256;
     myAddress: Address;
-    myBool: Bool;
+    myBool2: Bool;
     myStruct: MyStruct;
     myStruct2: MyStruct;
 }
@@ -45,6 +48,7 @@ contract SampleContract {
     
     bounced(msg: bounced<First>) {
         // only the first 224 bits are populated into a partial Shoko struct
+        let y: Bool = msg.myBool3;
     }
 
     // This will be supported in a future commit, and will throw if the string does not fit within a bounced message

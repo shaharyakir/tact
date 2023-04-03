@@ -1,6 +1,6 @@
 # TACT Compilation Report
 Contract: SampleContract
-BOC Size: 456 bytes
+BOC Size: 507 bytes
 
 # Types
 Total Types: 6
@@ -18,12 +18,12 @@ TLB: `_ bounce:bool to:address value:int257 mode:int257 body:Maybe ^cell code:Ma
 Signature: `SendParameters{bounce:bool,to:address,value:int257,mode:int257,body:Maybe ^cell,code:Maybe ^cell,data:Maybe ^cell}`
 
 ## First
-TLB: `first#35a0eb99 amount:uint32 myCoins:coins = First`
-Signature: `First{amount:uint32,myCoins:coins}`
+TLB: `first#bec08f38 amount:uint32 myCoins:coins myBool3:bool anAddress:address = First`
+Signature: `First{amount:uint32,myCoins:coins,myBool3:bool,anAddress:address}`
 
 ## Second
-TLB: `second#0f3105ec amount_bigger:uint64 thisDoesNotFit:uint256 myAddress:address myBool:bool myStruct:MyStruct{amount:int257} myStruct2:MyStruct{amount:int257} = Second`
-Signature: `Second{amount_bigger:uint64,thisDoesNotFit:uint256,myAddress:address,myBool:bool,myStruct:MyStruct{amount:int257},myStruct2:MyStruct{amount:int257}}`
+TLB: `second#17571ec8 amount_bigger:uint64 myBool:bool thisDoesNotFit:uint256 myAddress:address myBool2:bool myStruct:MyStruct{amount:int257} myStruct2:MyStruct{amount:int257} = Second`
+Signature: `Second{amount_bigger:uint64,myBool:bool,thisDoesNotFit:uint256,myAddress:address,myBool2:bool,myStruct:MyStruct{amount:int257},myStruct2:MyStruct{amount:int257}}`
 
 ## MyStruct
 TLB: `_ amount:int257 = MyStruct`
