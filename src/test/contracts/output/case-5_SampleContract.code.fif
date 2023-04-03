@@ -2,9 +2,9 @@ PROGRAM{
   DECLPROC __tact_verify_address
   DECLPROC __tact_load_address
   DECLPROC $First$_load
-  DECLPROC $First$_load_bounced
   DECLPROC $MyStruct$_load
   DECLPROC $Second$_load
+  DECLPROC $First$_load_bounced
   DECLPROC $Second$_load_bounced
   DECLPROC $SampleContract$_contract_init
   DECLPROC $SampleContract$_contract_load
@@ -55,10 +55,6 @@ PROGRAM{
     LDGRAMS
     -ROT
   }>
-  $First$_load_bounced PROCINLINE:<{
-    32 LDU
-    SWAP
-  }>
   $MyStruct$_load PROCINLINE:<{
     257 PUSHINT
     LDIX
@@ -86,6 +82,10 @@ PROGRAM{
     s1 s5 XCHG
     s1 s4 XCHG
     s3 s3 s0 XCHG3
+  }>
+  $First$_load_bounced PROCINLINE:<{
+    32 LDU
+    SWAP
   }>
   $Second$_load_bounced PROCINLINE:<{
     64 LDU

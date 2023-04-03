@@ -81,11 +81,22 @@ function buildTypeRef(src: ASTTypeRef, types: { [key: string]: TypeDescription }
     throw Error('Unknown type ref');
 }
 
+function uidForName(name: string, types: { [key: string]: TypeDescription }) {
+    // Resolve unique typeid from crc16
+    let uid = crc16(name);
+    while (Object.values(types).find((v) => v.uid === uid)) {
+        uid = (uid + 1) % 65536;
+    }
+    return uid;
+}
+
 export function resolveDescriptors(ctx: CompilerContext) {
     let types: { [key: string]: TypeDescription } = {};
     let staticFunctions: { [key: string]: FunctionDescription } = {};
     let staticConstants: { [key: string]: ConstantDescription } = {};
     let ast = getRawAST(ctx);
+
+    const typesWithBounceFunction: { [key: string]: boolean} = {};
 
     //
     // Register types
@@ -96,11 +107,7 @@ export function resolveDescriptors(ctx: CompilerContext) {
             throwError(`Type ${a.name} already exists`, a.ref);
         }
 
-        // Resolve unique typeid from crc16
-        let uid = crc16(a.name);
-        while (Object.values(types).find((v) => v.uid === uid)) {
-            uid = (uid + 1) % 65536;
-        }
+        let uid = uidForName(a.name, types);
 
         if (a.kind === 'primitive') {
             types[a.name] = {
@@ -159,27 +166,6 @@ export function resolveDescriptors(ctx: CompilerContext) {
                 interfaces: [],
                 constants: [],
             };
-
-            if (a.message) {
-                types[toBounced(a.name)] = {
-                    kind: 'partial_struct',
-                    origin: a.origin,
-                    name: toBounced(a.name),
-                    uid,
-                    header: null,
-                    tlb: null,
-                    signature: null,
-                    fields: [],
-                    traits: [],
-                    functions: new Map(),
-                    receivers: [],
-                    dependsOn: [],
-                    init: null,
-                    ast: a,
-                    interfaces: [],
-                    constants: [],
-                };
-            }
         } else if (a.kind === 'def_trait') {
             types[a.name] = {
                 kind: 'trait',
@@ -254,25 +240,12 @@ export function resolveDescriptors(ctx: CompilerContext) {
 
         // Struct
         if (a.kind === 'def_struct') {
-            let bouncedBitsCounter = 0;
             for (const f of a.fields) {
                 
                 if (types[a.name].fields.find((v) => v.name === f.name)) {
                     throwError(`Field ${f.name} already exists`, f.ref);
                 }
                 types[a.name].fields.push(buildFieldDescription(f, types[a.name].fields.length));
-                
-                // TODO limit fields
-                // TODO should we process ~ structs if there isn't a bounced handler?
-                // BUILD PARTIAL STRUCT
-                if (a.message && bouncedBitsCounter === 0 && !!types[toBounced(a.name)]) {
-                    bouncedBitsCounter += 1 // TODO should be based on field bit counter
-                    // TODO how to count nested structs length?
-                    const fieldDescription = buildFieldDescription(f, types[a.name].fields.length)
-                    // console.log("PushX " + fieldDescription.name, bouncedBitsCounter, a.fields.length)
-                    
-                    types[toBounced(a.name)].fields.push(buildFieldDescription(f, types[a.name].fields.length));
-                }
             }
         }
 
@@ -621,6 +594,10 @@ export function resolveDescriptors(ctx: CompilerContext) {
                         //     throwError('Bounce receive function already exists for type:' + arg.type.name, d.ref);
                         // }
 
+                        if (!isGeneric) {
+                            typesWithBounceFunction[arg.type.name] = true;
+                        }
+                        
                         // TODO rethink whether "generic" is a good way to handle this
                         s.receivers.push({
                             selector: { kind: 'internal-bounce', name: arg.name, type: arg.type.name, isGeneric },
@@ -948,6 +925,40 @@ export function resolveDescriptors(ctx: CompilerContext) {
             throwError(`Static function ${a.name} already exists`, a.ref);
         }
         staticConstants[a.name] = buildConstantDescription(a);
+    }
+
+    for (let a of ast.types) {
+        if (a.kind === "def_struct" && a.message && typesWithBounceFunction[a.name]) {
+            const originalType = types[a.name];
+
+            types[toBounced(a.name)] = {
+                kind: 'partial_struct',
+                origin: originalType.origin,
+                name: toBounced(originalType.name),
+                uid: uidForName(toBounced(originalType.name), types),
+                header: originalType.header,
+                tlb: null, // TODO?
+                signature: null, // TODO?
+                fields: [],
+                traits: [],
+                functions: new Map(),
+                receivers: [],
+                dependsOn: [], // TODO?
+                init: null,
+                ast: a,
+                interfaces: [],
+                constants: [],
+            };
+
+            types[a.name].fields.slice(0,1).forEach((f: FieldDescription) => {
+                console.log(f, "SHAHAR")
+                // TODO limit fields
+                // TODO should we process ~ structs if there isn't a bounced handler?
+                // BUILD PARTIAL STRUCT
+                // TODO how to count nested structs length?    
+                types[toBounced(a.name)].fields.push(f);
+            })
+        }
     }
 
     //

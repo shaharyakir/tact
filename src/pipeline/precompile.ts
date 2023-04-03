@@ -33,11 +33,6 @@ export function precompile(ctx: CompilerContext, project: VirtualFileSystem, std
     // This extracts error messages
     ctx = resolveErrors(ctx);
 
-    const x = Object.entries(getAllTypes(ctx)).map(([k,v ]) => {
-        console.log(k, v)
-    });
-
-
     // Prepared context
     return ctx;
 }
