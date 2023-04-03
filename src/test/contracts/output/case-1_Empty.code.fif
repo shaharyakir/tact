@@ -128,6 +128,9 @@ PROGRAM{
     SWAP
   }>
   $Empty$_contract_router PROCREF:<{
+    OVER
+    IF:<{
+    }>
     DUP
     SBITS
     NIP

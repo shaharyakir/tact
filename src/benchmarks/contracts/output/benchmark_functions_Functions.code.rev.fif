@@ -35,6 +35,8 @@ PROGRAM{
     ADD
   }>
   ?fun_2 PROCREF:<{
+    s1 PUSH
+    s0 POP
     0 PUSHINT
     s1 PUSH
     SBITS

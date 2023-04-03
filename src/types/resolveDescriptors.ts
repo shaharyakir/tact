@@ -12,6 +12,8 @@ let store = createContextStore<TypeDescription>();
 let staticFunctionsStore = createContextStore<FunctionDescription>();
 let staticConstantsStore = createContextStore<ConstantDescription>();
 
+const toBounced = (type: string) => `${type}%%BOUNCED%%`;
+
 export function resolveTypeRef(ctx: CompilerContext, src: ASTTypeRef): TypeRef {
     if (src.kind === 'type_ref_simple') {
         let t = getType(ctx, src.name);
@@ -158,13 +160,11 @@ export function resolveDescriptors(ctx: CompilerContext) {
                 constants: [],
             };
 
-            // TODO: a different approach would be to make this a different type at the AST level
-            // TODO: ~ should be a const
             if (a.message) {
-                types[a.name + '%%BOUNCED%%'] = {
+                types[toBounced(a.name)] = {
                     kind: 'partial_struct',
                     origin: a.origin,
-                    name: a.name + '%%BOUNCED%%',
+                    name: toBounced(a.name),
                     uid,
                     header: null,
                     tlb: null,
@@ -265,12 +265,13 @@ export function resolveDescriptors(ctx: CompilerContext) {
                 // TODO limit fields
                 // TODO should we process ~ structs if there isn't a bounced handler?
                 // BUILD PARTIAL STRUCT
-                if (a.message && bouncedBitsCounter === 0) {
+                if (a.message && bouncedBitsCounter === 0 && !!types[toBounced(a.name)]) {
                     bouncedBitsCounter += 1 // TODO should be based on field bit counter
                     // TODO how to count nested structs length?
                     const fieldDescription = buildFieldDescription(f, types[a.name].fields.length)
-                    console.log("PushX " + fieldDescription.name, bouncedBitsCounter, a.fields.length)
-                    types[a.name + '%%BOUNCED%%'].fields.push(buildFieldDescription(f, types[a.name].fields.length));
+                    // console.log("PushX " + fieldDescription.name, bouncedBitsCounter, a.fields.length)
+                    
+                    types[toBounced(a.name)].fields.push(buildFieldDescription(f, types[a.name].fields.length));
                 }
             }
         }

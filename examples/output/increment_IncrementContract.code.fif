@@ -560,6 +560,9 @@ PROGRAM{
     SWAP
   }>
   $IncrementContract$_contract_router PROCREF:<{
+    OVER
+    IF:<{
+    }>
     0 PUSHINT
     OVER
     SBITS

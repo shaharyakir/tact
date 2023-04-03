@@ -15,12 +15,13 @@ export function writeRouter(type: TypeDescription, ctx: WriterContext) {
         // Parse incoming message
         ctx.append();
 
-        // TODO 
-        /*
-        if (msg_bounced) {
-                in_msg.skip(32); ;; skip 0xffff 
-            } 
-        */ 
+        ctx.append(`if (msg_bounced) {`);
+        ctx.inIndent(() => {
+            ctx.append(`;; Skip 0xFFFFFFFF`);
+            ctx.append(`in_msg.skip_bits(32);`);
+        });
+        ctx.append(`}`);
+        ctx.append();
 
         ctx.append(`;; Parse incoming message`);
         ctx.append(`int op = 0;`);
@@ -48,14 +49,11 @@ export function writeRouter(type: TypeDescription, ctx: WriterContext) {
                 return allocation.origin === "stdlib" && allocation.name === "Slice";
             });
             
-            // TODO add comment bounce handlers
-
             for (const r of nonGenericReceivers) {
                 const selector = r.selector;
                 if (selector.kind !== "internal-bounce") throw Error('Invalid selector type: ' + selector.kind);
 
-                // TODO improve originalType
-                let allocation = getType(ctx.ctx, selector.type.replace(/%%BOUNCED%%$/, ''));
+                let allocation = getType(ctx.ctx, selector.type);
                 
                 if (!allocation.header) {
                     throw Error('Invalid allocation: ' + selector.type);

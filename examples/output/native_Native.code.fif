@@ -103,6 +103,9 @@ PROGRAM{
   $Native$_contract_router PROCREF:<{
     c2 SAVE
     SAMEALTSAVE
+    OVER
+    IF:<{
+    }>
     0 PUSHINT
     OVER
     SBITS

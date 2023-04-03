@@ -325,6 +325,8 @@ PROGRAM{
     ?fun_5 INLINECALLDICT
   }>
   ?fun_2 PROCREF:<{
+    s1 PUSH
+    s0 POP
     0 PUSHINT
     s1 PUSH
     SBITS
@@ -548,7 +550,8 @@ PROGRAM{
       IFELSE
       s0 s2 XCHG
       -1 PUSHINT
-    }> IFJMPREF
+    }> PUSHCONT
+    IFJMP
     s1 PUSH
     1718153138 PUSHINT
     EQUAL
@@ -588,8 +591,7 @@ PROGRAM{
       ENDC
       ?fun_4 INLINECALLDICT
       -1 PUSHINT
-    }> PUSHCONT
-    IFJMP
+    }> IFJMPREF
     s0 POP
     0 PUSHINT
   }>

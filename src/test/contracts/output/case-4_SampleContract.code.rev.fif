@@ -51,6 +51,8 @@ PROGRAM{
     ?fun_1 INLINECALLDICT
   }>
   ?fun_2 PROCREF:<{
+    s1 PUSH
+    s0 POP
     s0 PUSH
     SBITS
     s1 POP

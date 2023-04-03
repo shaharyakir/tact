@@ -318,6 +318,8 @@ PROGRAM{
   ?fun_1 PROCREF:<{
     2 SAVE
     SAMEALTSAVE
+    s1 PUSH
+    s0 POP
     0 PUSHINT
     s1 PUSH
     SBITS

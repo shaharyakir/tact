@@ -171,6 +171,9 @@ PROGRAM{
     SWAP
   }>
   $Wallet$_contract_router PROCREF:<{
+    OVER
+    IF:<{
+    }>
     0 PUSHINT
     OVER
     SBITS

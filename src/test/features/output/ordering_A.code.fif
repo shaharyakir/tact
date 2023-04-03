@@ -303,6 +303,9 @@ PROGRAM{
     SWAP
   }>
   $A$_contract_router PROCREF:<{
+    OVER
+    IF:<{
+    }>
     0 PUSHINT
     OVER
     SBITS

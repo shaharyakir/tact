@@ -275,6 +275,9 @@ PROGRAM{
     SWAP
   }>
   $SerializationTester$_contract_router PROCREF:<{
+    OVER
+    IF:<{
+    }>
     0 PUSHINT
     OVER
     SBITS
