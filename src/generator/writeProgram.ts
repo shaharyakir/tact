@@ -267,9 +267,7 @@ function writeAll(ctx: CompilerContext, wctx: WriterContext, name: string, abiLi
     // Serializators
     let sortedTypes = getSortedTypes(ctx);
     for (let t of sortedTypes) {
-        // console.log("Writing serializer for " + t.name, "SHAHAR1");
         if (t.kind === 'contract' || t.kind === 'struct') {
-            // console.log("Writing serializer for " + t.name, "SHAHAR1-1");
             let allocation = getAllocation(ctx, t.name);
             writeSerializer(t.name, t.kind === 'contract', allocation, t.origin, wctx);
             writeOptionalSerializer(t.name, t.origin, wctx);
@@ -277,10 +275,8 @@ function writeAll(ctx: CompilerContext, wctx: WriterContext, name: string, abiLi
             writeOptionalParser(t.name, t.origin, wctx);
         }
         if (t.kind === 'partial_struct') {
-            // console.log("Writing serializer for " + t.name, "SHAHAR1-1");
             let allocation = getAllocation(ctx, t.name);
             writeBouncedParser(t.name, false, allocation, t.origin, wctx);
-            // writeOptionalParser(t.name, t.origin, wctx); TODO maybe relevant for nested structs?
         }
     }
 
@@ -294,9 +290,7 @@ function writeAll(ctx: CompilerContext, wctx: WriterContext, name: string, abiLi
 
     // Init serializers
     for (let t of sortedTypes) {
-        // console.log("Writing init serializer for " + t.name, "SHAHAR2");
         if (t.kind === 'contract' && t.init) {
-            // console.log("Writing init serializer for " + t.name, "SHAHAR2-2");
             let allocation = getAllocation(ctx, initId(t.name));
             writeSerializer(initId(t.name), true, allocation, t.origin, wctx);
             writeParser(initId(t.name), false, allocation, t.origin, wctx);

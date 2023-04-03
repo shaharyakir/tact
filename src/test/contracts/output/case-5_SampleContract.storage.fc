@@ -14,6 +14,7 @@
 }
 
 (slice, ((int, int, int))) $First$_load_bounced(slice sc_0) inline {
+    throw_unless(129, sc_0~load_uint(32) == 3200290616);
     var v'amount = sc_0~load_uint(32);
     var v'myCoins = sc_0~load_coins();
     var v'myBool3 = sc_0~load_int(1);
@@ -50,6 +51,7 @@
 }
 
 (slice, ((int, int))) $Second$_load_bounced(slice sc_0) inline {
+    throw_unless(129, sc_0~load_uint(32) == 391585480);
     var v'amount_bigger = sc_0~load_uint(64);
     var v'myBool = sc_0~load_int(1);
     return (sc_0, (v'amount_bigger, v'myBool));

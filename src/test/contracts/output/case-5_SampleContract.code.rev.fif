@@ -93,6 +93,11 @@ PROGRAM{
       EQUAL
       <{
         s1 POP
+        32 LDU
+        s0 s1 XCHG
+        391585480 PUSHINT
+        EQUAL
+        129 THROWIFNOT
         64 LDU
         1 LDI
         ROTREV
@@ -105,6 +110,11 @@ PROGRAM{
       3200290616 PUSHINT
       EQUAL
       <{
+        32 LDU
+        s0 s1 XCHG
+        3200290616 PUSHINT
+        EQUAL
+        129 THROWIFNOT
         32 LDU
         LDGRAMS
         1 LDI
@@ -162,13 +172,9 @@ PROGRAM{
       1 7 BLKDROP2
       7 BLKDROP
       -1 PUSHINT
-    }> PUSHCONT
-    IFJMP
+    }> IFJMPREF
     s0 s1 XCHG
     0 EQINT
-    <{
-      s0 POP
-    }> PUSHCONT
     <{
       HASHSU
       93093333132076440750103890131866374745660412111105226855661378207494015626164 PUSHINT
@@ -178,7 +184,11 @@ PROGRAM{
         RETFALSE
       }> PUSHCONT
       IFJMP
-    }> IFREFELSE
+    }> PUSHCONT
+    <{
+      s0 POP
+    }> PUSHCONT
+    IFELSE
     0 PUSHINT
   }>
   recv_internal PROC:<{

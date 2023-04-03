@@ -90,11 +90,21 @@ PROGRAM{
   }>
   $First$_load_bounced PROCINLINE:<{
     32 LDU
+    SWAP
+    3200290616 PUSHINT
+    EQUAL
+    129 THROWIFNOT
+    32 LDU
     LDGRAMS
     1 LDI
     3 -ROLL
   }>
   $Second$_load_bounced PROCINLINE:<{
+    32 LDU
+    SWAP
+    391585480 PUSHINT
+    EQUAL
+    129 THROWIFNOT
     64 LDU
     1 LDI
     -ROT

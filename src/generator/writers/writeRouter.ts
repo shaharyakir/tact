@@ -1,5 +1,5 @@
 import { beginCell } from "ton-core";
-import { getType } from "../../types/resolveDescriptors";
+import { getType, toBounced } from "../../types/resolveDescriptors";
 import { ReceiverDescription, ReceiverSelector, TypeDescription } from "../../types/types";
 import { WriterContext } from "../Writer";
 import { id } from "./id";
@@ -67,7 +67,6 @@ export function writeRouter(type: TypeDescription, ctx: WriterContext) {
                     ctx.append(`var msg = in_msg~${ops.readerBounced(selector.type, ctx)}();`);
 
                     // Execute function
-                    console.log(selector.type, type.name, "BOUNCED RECEIVER")
                     ctx.append(`self~${ops.receiveTypeBounce(type.name, selector.type)}(msg);`);
 
                     // Exit
@@ -76,7 +75,6 @@ export function writeRouter(type: TypeDescription, ctx: WriterContext) {
                 ctx.append(`}`);
             }
 
-            // TODO perhaps we can skip the msg.skipBits(32); // 0xFFFFFFFF for the user.. not sure
             if (genericReceiver) {
                 const selector = genericReceiver.selector;
                 if (selector.kind !== "internal-bounce") throw Error('Invalid selector type: ' + selector.kind);
@@ -329,14 +327,12 @@ export function writeReceiver(self: TypeDescription, f: ReceiverDescription, ctx
 
     // Bounced
     if (selector.kind === 'internal-bounce') {
-        const type = selector.isGeneric ? selector.type : selector.type + '%%BOUNCED%%';
+        const type = selector.isGeneric ? selector.type : toBounced(selector.type);
         let args = [
             selfType + ' ' + id('self'),
             resolveFuncType(type, ctx) + ' ' + id(selector.name)
         ];
-        // TODO we use selector.type becuase of func grammer which wouldn't allow ~ (maybe we can do better with a different symbol)
         ctx.append(`((${selfType}), ()) ${ops.receiveTypeBounce(self.name, selector.type)}(${args.join(', ')}) impure inline {`);
-        // ctx.append(`(${selfType}, ()) ${ops.receiveBounce(self.name, selector.type)}(${selfType} ${id('self')}, slice ${id(selector.name)}) impure inline {`);
         ctx.inIndent(() => {
             ctx.append(selfUnpack);
             ctx.append(`var ${resolveFuncTypeUnpack(type, id(selector.name), ctx)} = ${id(selector.name)};`);

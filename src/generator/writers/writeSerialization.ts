@@ -1,7 +1,7 @@
 import { contractErrors } from "../../abi/errors";
 import { AllocationCell, AllocationOperation } from "../../storage/operation";
 import { StorageAllocation } from "../../storage/StorageAllocation";
-import { getType } from "../../types/resolveDescriptors";
+import { getType, fromBounced } from '../../types/resolveDescriptors';
 import { TypeOrigin } from "../../types/types";
 import { WriterContext } from "../Writer";
 import { ops } from "./ops";
@@ -241,11 +241,10 @@ export function writeParser(name: string, forceInline: boolean, allocation: Stor
     });
 }
 
-// TODO perhaps extract logic from writeParser and writeBouncedParser
 export function writeBouncedParser(name: string, forceInline: boolean, allocation: StorageAllocation, origin: TypeOrigin, ctx: WriterContext) {
     let isSmall = allocation.ops.length <= SMALL_STRUCT_MAX_FIELDS;
 
-    name = name.replace(/%%BOUNCED%%$/, ''); // For func syntax purposes, remove %%BOUNCED%%
+    name = fromBounced(name); // For func syntax purposes, remove %%BOUNCED%%
 
     ctx.fun(ops.readerBounced(name, ctx), () => {
         ctx.signature(`(slice, (${resolveFuncTypeFromAbi(allocation.ops.map((v) => v.type), ctx)})) ${ops.readerBounced(name, ctx)}(slice sc_0)`);

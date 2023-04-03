@@ -12,7 +12,14 @@ let store = createContextStore<TypeDescription>();
 let staticFunctionsStore = createContextStore<FunctionDescription>();
 let staticConstantsStore = createContextStore<ConstantDescription>();
 
-const toBounced = (type: string) => `${type}%%BOUNCED%%`;
+export const toBounced = (type: string) => `${type}%%BOUNCED%%`;
+export const fromBounced = (type: string) => {
+    if (/%%BOUNCED%%$/.test(type)) {
+        return type.replace(/%%BOUNCED%%$/, '');
+    } else {
+        throw new Error("Unexpected type name: " + type);
+    }
+};
 
 export function resolveTypeRef(ctx: CompilerContext, src: ASTTypeRef): TypeRef {
     if (src.kind === 'type_ref_simple') {
@@ -95,8 +102,6 @@ export function resolveDescriptors(ctx: CompilerContext) {
     let staticFunctions: { [key: string]: FunctionDescription } = {};
     let staticConstants: { [key: string]: ConstantDescription } = {};
     let ast = getRawAST(ctx);
-
-    const typesWithBounceFunction: { [key: string]: boolean} = {};
 
     //
     // Register types
@@ -441,7 +446,6 @@ export function resolveDescriptors(ctx: CompilerContext) {
     }
 
     for (const a of ast.types) {
-
         if (a.kind === 'def_contract' || a.kind === 'def_trait') {
             const s = types[a.name];
             for (const d of a.declarations) {
@@ -576,8 +580,6 @@ export function resolveDescriptors(ctx: CompilerContext) {
                             throwError('Receive function cannot have optional argument', d.ref);
                         }
 
-                        
-
                         // Check resolved argument type
                         // TODO throw if slice
                         // TODO throw for bounced without receivers
@@ -588,16 +590,11 @@ export function resolveDescriptors(ctx: CompilerContext) {
                         //     throwError('Bounce receive function can only accept message', d.ref);
                         // }
 
-                        // TODO handle comments
                         // TODO handle already exists
                         // if (s.receivers.find((v) => v.selector.kind === 'internal-bounce' && v.selector.type === arg.type?.name)) {
                         //     throwError('Bounce receive function already exists for type:' + arg.type.name, d.ref);
                         // }
 
-                        if (!isGeneric) {
-                            typesWithBounceFunction[arg.type.name] = true;
-                        }
-                        
                         // TODO rethink whether "generic" is a good way to handle this
                         s.receivers.push({
                             selector: { kind: 'internal-bounce', name: arg.name, type: arg.type.name, isGeneric },
@@ -927,61 +924,6 @@ export function resolveDescriptors(ctx: CompilerContext) {
         staticConstants[a.name] = buildConstantDescription(a);
     }
 
-    for (let a of ast.types) {
-        if (a.kind === "def_struct" && a.message && typesWithBounceFunction[a.name]) {
-            let remainingBits = 224;
-    
-            const originalType = types[a.name];
-
-            types[toBounced(a.name)] = {
-                kind: 'partial_struct',
-                origin: originalType.origin,
-                name: toBounced(originalType.name),
-                uid: uidForName(toBounced(originalType.name), types),
-                header: null,
-                tlb: null, // TODO?
-                signature: null, // TODO?
-                fields: [],
-                traits: [],
-                functions: new Map(),
-                receivers: [],
-                dependsOn: [], // TODO?
-                init: null,
-                ast: a,
-                interfaces: [],
-                constants: [],
-            };
-
-            for (const f of types[a.name].fields) {
-                if (f.abi.type.kind !== "simple") break;
-
-                // console.log(f.abi.type.format, f.abi.type.type, a.name)
-
-                let fieldBits = f.abi.type.optional ? 1 : 0;
-                if (Number.isInteger(f.abi.type.format)) {
-                    fieldBits += f.abi.type.format as number;
-                } else if (f.abi.type.format === "coins") {
-                    fieldBits += 124;
-                } else if (f.abi.type.type === "address") {
-                    fieldBits += 267;
-                } else if (f.abi.type.type === "bool") {
-                    fieldBits += 1;
-                } else {
-                    // Unsupported - all others (slice, builder, nested structs)
-                    break;
-                }
-
-                // TODO how to count nested structs length?    
-                if (remainingBits - fieldBits > 0) {
-                   remainingBits -= fieldBits;
-                   types[toBounced(a.name)].fields.push(f);
-                } else {
-                    break;
-                }
-            }
-        }
-    }
-
     //
     // Register types and functions in context
     //
@@ -1045,4 +987,79 @@ export function getAllStaticFunctions(ctx: CompilerContext) {
 
 export function getAllStaticConstants(ctx: CompilerContext) {
     return staticConstantsStore.all(ctx);
+}
+
+export function resolvePartialStructs(ctx: CompilerContext) {
+    let ast = getRawAST(ctx);
+    const types = getAllTypes(ctx);
+    const typesWithBounceFunction: { [key: string]: boolean} = {}
+
+    for (const a of ast.types) {
+        if (a.kind === 'def_contract' || a.kind === 'def_trait') {
+            store.get(ctx, a.name)?.receivers.forEach((r) => {
+                if (r.selector.kind === 'internal-bounce' && !r.selector.isGeneric) {
+                    typesWithBounceFunction[r.selector.type] = true;
+                }
+            });
+        }
+    }
+
+    for (let a of ast.types) {
+        if (a.kind === "def_struct" && a.message && typesWithBounceFunction[a.name]) {
+            let remainingBits = 224;
+            
+            const originalType = store.get(ctx, a.name)!;
+
+            const newType: TypeDescription = {
+                kind: 'partial_struct',
+                origin: originalType.origin,
+                name: toBounced(originalType.name),
+                uid: uidForName(toBounced(originalType.name), getAllTypes(ctx)),
+                header: originalType.header,
+                tlb: null, // TODO?
+                signature: null, // TODO?
+                fields: [],
+                traits: [],
+                functions: new Map(),
+                receivers: [],
+                dependsOn: [], // TODO?
+                init: null,
+                ast: a,
+                interfaces: [],
+                constants: [],
+            };
+
+            for (const f of originalType.fields) {
+                if (f.abi.type.kind !== "simple") break;
+
+                // console.log(f.abi.type.format, f.abi.type.type, a.name)
+
+                let fieldBits = f.abi.type.optional ? 1 : 0;
+                if (Number.isInteger(f.abi.type.format)) {
+                    fieldBits += f.abi.type.format as number;
+                } else if (f.abi.type.format === "coins") {
+                    fieldBits += 124;
+                } else if (f.abi.type.type === "address") {
+                    fieldBits += 267;
+                } else if (f.abi.type.type === "bool") {
+                    fieldBits += 1;
+                } else {
+                    // Unsupported - all others (slice, builder, nested structs)
+                    break;
+                }
+
+                // TODO how to count nested structs length?    
+                if (remainingBits - fieldBits > 0) {
+                   remainingBits -= fieldBits;
+                   newType.fields.push(f);
+                } else {
+                    break;
+                }
+            }
+
+            ctx = store.set(ctx, toBounced(a.name), newType);
+        }
+    }
+    
+    return ctx;
 }
