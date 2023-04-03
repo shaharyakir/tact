@@ -55,7 +55,7 @@ export function writeRouter(type: TypeDescription, ctx: WriterContext) {
                 if (selector.kind !== "internal-bounce") throw Error('Invalid selector type: ' + selector.kind);
 
                 // TODO improve originalType
-                let allocation = getType(ctx.ctx, selector.type.replace(/~$/, ''));
+                let allocation = getType(ctx.ctx, selector.type.replace(/%%BOUNCED%%$/, ''));
                 
                 if (!allocation.header) {
                     throw Error('Invalid allocation: ' + selector.type);
@@ -331,7 +331,7 @@ export function writeReceiver(self: TypeDescription, f: ReceiverDescription, ctx
 
     // Bounced
     if (selector.kind === 'internal-bounce') {
-        const type = selector.isGeneric ? selector.type : selector.type + '~';
+        const type = selector.isGeneric ? selector.type : selector.type + '%%BOUNCED%%';
         let args = [
             selfType + ' ' + id('self'),
             resolveFuncType(type, ctx) + ' ' + id(selector.name)

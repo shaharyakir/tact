@@ -161,10 +161,10 @@ export function resolveDescriptors(ctx: CompilerContext) {
             // TODO: a different approach would be to make this a different type at the AST level
             // TODO: ~ should be a const
             if (a.message) {
-                types[a.name + '~'] = {
+                types[a.name + '%%BOUNCED%%'] = {
                     kind: 'partial_struct',
                     origin: a.origin,
-                    name: a.name + '~',
+                    name: a.name + '%%BOUNCED%%',
                     uid,
                     header: null,
                     tlb: null,
@@ -268,10 +268,9 @@ export function resolveDescriptors(ctx: CompilerContext) {
                 if (a.message && bouncedBitsCounter === 0) {
                     bouncedBitsCounter += 1 // TODO should be based on field bit counter
                     // TODO how to count nested structs length?
-                    // TOOD can structs hold things such as coins?
                     const fieldDescription = buildFieldDescription(f, types[a.name].fields.length)
                     console.log("PushX " + fieldDescription.name, bouncedBitsCounter, a.fields.length)
-                    types[a.name + `~`].fields.push(buildFieldDescription(f, types[a.name].fields.length));
+                    types[a.name + '%%BOUNCED%%'].fields.push(buildFieldDescription(f, types[a.name].fields.length));
                 }
             }
         }
@@ -793,7 +792,7 @@ export function resolveDescriptors(ctx: CompilerContext) {
                         return a.type === b.type;
                     }
                     if (a.kind === 'internal-bounce' && b.kind === 'internal-bounce') {
-                        return true;
+                        return a.type === b.type;
                     }
                     if (a.kind === 'internal-empty' && b.kind === 'internal-empty') {
                         return true;
