@@ -48,16 +48,9 @@ PROGRAM{
     IF
     s0 PUSH
     SBITS
+    s1 POP
     31 GTINT
-    <{
-      32 PLDU
-      32 DEBUG
-      s0 POP
-    }> PUSHCONT
-    <{
-      s0 POP
-    }> PUSHCONT
-    IFELSE
+    s0 POP
     <{
       -1 PUSHINT
     }> PUSHCONT

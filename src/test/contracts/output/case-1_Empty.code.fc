@@ -76,7 +76,6 @@ _ lazy_deployment_completed() method_id {
     int op = 0;
     if (slice_bits(in_msg) >= 32) {
         op = in_msg.preload_uint(32);
-        ~dump op;
     }
     
     ;; Handle bounced messages

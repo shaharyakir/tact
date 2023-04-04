@@ -62,7 +62,7 @@ export interface TactActionDict<T> extends ActionDict<T> {
   ReceiveFunction_simple?: (this: NonterminalNode, arg0: TerminalNode, arg1: TerminalNode, arg2: NonterminalNode, arg3: TerminalNode, arg4: TerminalNode, arg5: IterationNode, arg6: TerminalNode) => T;
   ReceiveFunction_empty?: (this: NonterminalNode, arg0: TerminalNode, arg1: TerminalNode, arg2: TerminalNode, arg3: TerminalNode, arg4: IterationNode, arg5: TerminalNode) => T;
   ReceiveFunction_comment?: (this: NonterminalNode, arg0: TerminalNode, arg1: TerminalNode, arg2: NonterminalNode, arg3: TerminalNode, arg4: TerminalNode, arg5: IterationNode, arg6: TerminalNode) => T;
-  ReceiveFunction_bouncedEmpty?: (this: NonterminalNode, arg0: TerminalNode, arg1: TerminalNode, arg2: NonterminalNode, arg3: TerminalNode, arg4: TerminalNode, arg5: IterationNode, arg6: TerminalNode) => T;
+  ReceiveFunction_bouncedSlice?: (this: NonterminalNode, arg0: TerminalNode, arg1: TerminalNode, arg2: NonterminalNode, arg3: TerminalNode, arg4: TerminalNode, arg5: IterationNode, arg6: TerminalNode) => T;
   ReceiveFunction_bouncedSimple?: (this: NonterminalNode, arg0: TerminalNode, arg1: TerminalNode, arg2: NonterminalNode, arg3: TerminalNode, arg4: TerminalNode, arg5: IterationNode, arg6: TerminalNode) => T;
   ReceiveFunction_externalSimple?: (this: NonterminalNode, arg0: TerminalNode, arg1: TerminalNode, arg2: NonterminalNode, arg3: TerminalNode, arg4: TerminalNode, arg5: IterationNode, arg6: TerminalNode) => T;
   ReceiveFunction_externalComment?: (this: NonterminalNode, arg0: TerminalNode, arg1: TerminalNode, arg2: NonterminalNode, arg3: TerminalNode, arg4: TerminalNode, arg5: IterationNode, arg6: TerminalNode) => T;

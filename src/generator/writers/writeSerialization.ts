@@ -365,7 +365,6 @@ function writeFieldParser(f: AllocationOperation, gen: number, ctx: WriterContex
         }
         return;
     }
-    // TODO (when slice is supported in tact)
     if (op.kind === 'slice') {
         if (op.optional) {
             if (op.format !== 'default') {
@@ -420,7 +419,6 @@ function writeFieldParser(f: AllocationOperation, gen: number, ctx: WriterContex
         ctx.append(`${varName} = sc_${gen}~load_dict();`);
         return;
     }
-    // TODO handle this (if the struct can be contained within the same cell)
     if (op.kind === 'struct') {
         if (op.optional) {
             if (op.ref) {

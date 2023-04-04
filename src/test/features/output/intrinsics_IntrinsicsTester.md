@@ -1,6 +1,6 @@
 # TACT Compilation Report
 Contract: IntrinsicsTester
-BOC Size: 951 bytes
+BOC Size: 947 bytes
 
 # Types
 Total Types: 3

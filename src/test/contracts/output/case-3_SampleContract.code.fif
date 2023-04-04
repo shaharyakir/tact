@@ -146,13 +146,9 @@ PROGRAM{
     }>
     DUP
     SBITS
+    NIP
     31 GTINT
     IF:<{
-      32 PLDU
-      s0 DUMP
-      DROP
-    }>ELSE<{
-      DROP
     }>
     IFJMP:<{
       TRUE

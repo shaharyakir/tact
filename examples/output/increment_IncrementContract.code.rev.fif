@@ -328,9 +328,6 @@ PROGRAM{
       s0 POP
       s0 PUSH
       32 PLDU
-      s0 PUSH
-      32 DEBUG
-      s0 POP
     }> PUSHCONT
     IF
     s0 s2 XCHG
@@ -399,7 +396,8 @@ PROGRAM{
       IFELSE
       s0 s1 XCHG
       -1 PUSHINT
-    }> IFJMPREF
+    }> PUSHCONT
+    IFJMP
     s1 PUSH
     1081595080 PUSHINT
     EQUAL
@@ -487,7 +485,8 @@ PROGRAM{
       IFELSE
       s0 s3 XCHG
       -1 PUSHINT
-    }> IFJMPREF
+    }> PUSHCONT
+    IFJMP
     s1 PUSH
     3801943978 PUSHINT
     EQUAL
@@ -544,7 +543,8 @@ PROGRAM{
       IFELSE
       s0 s2 XCHG
       -1 PUSHINT
-    }> IFJMPREF
+    }> PUSHCONT
+    IFJMP
     s1 PUSH
     1718153138 PUSHINT
     EQUAL
@@ -593,8 +593,7 @@ PROGRAM{
       NULL
       ?fun_4 INLINECALLDICT
       -1 PUSHINT
-    }> PUSHCONT
-    IFJMP
+    }> IFJMPREF
     s0 POP
     0 PUSHINT
   }>

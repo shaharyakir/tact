@@ -35,7 +35,6 @@ export function writeRouter(type: TypeDescription, kind: 'internal' | 'external'
         ctx.append(`if (slice_bits(in_msg) >= 32) {`);
         ctx.inIndent(() => {
             ctx.append(`op = in_msg.preload_uint(32);`);
-            ctx.append(`~dump op;`);
         });
         ctx.append(`}`);
         ctx.append();

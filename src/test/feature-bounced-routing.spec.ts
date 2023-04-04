@@ -8,7 +8,7 @@ describe('feature-strings', () => {
     beforeEach(() => {
         __DANGER_resetNodeId();
     });
-    it('should implement strings correctly', async () => {
+    it('should bounce based on type router', async () => {
 
         // Init
         let system = await ContractSystem.create();

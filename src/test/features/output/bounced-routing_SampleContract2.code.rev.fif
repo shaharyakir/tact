@@ -43,9 +43,6 @@ PROGRAM{
       s0 POP
       s0 PUSH
       32 PLDU
-      s0 PUSH
-      32 DEBUG
-      s0 POP
     }> PUSHCONT
     IF
     s0 s2 XCHG
@@ -102,7 +99,8 @@ PROGRAM{
       s0 POP
       144 THROW
       -1 PUSHINT
-    }> IFJMPREF
+    }> PUSHCONT
+    IFJMP
     s0 POP
     0 PUSHINT
   }>
