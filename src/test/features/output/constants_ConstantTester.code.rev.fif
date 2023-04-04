@@ -8,13 +8,15 @@ PROGRAM{
   DECLPROC ?fun_6;
   DECLPROC ?fun_5;
   DECLPROC supported_interfaces;
-  DECLPROC ?fun_8;
   DECLPROC ?fun_7;
-  DECLPROC ?fun_10;
   DECLPROC ?fun_9;
+  DECLPROC ?fun_8;
   DECLPROC ?fun_11;
-  DECLPROC ?fun_13;
+  DECLPROC ?fun_10;
   DECLPROC ?fun_12;
+  DECLPROC ?fun_13;
+  DECLPROC ?fun_15;
+  DECLPROC ?fun_14;
   ?fun_1 PROCREF:<{
     NULL
   }>
@@ -131,33 +133,42 @@ PROGRAM{
     36993126140238121407019133875791708966 PUSHINT
     209474421377847335869795010607481022628 PUSHINT
   }>
-  ?fun_8 PROCREF:<{
+  ?fun_7 PROC:<{
+    c4 PUSH
+    CTOS
+    1 LDI
+    s0 s1 XCHG
+  }>
+  ?fun_9 PROCREF:<{
     100 PUSHINT
   }>
-  ?fun_7 PROC:<{
+  ?fun_8 PROC:<{
     ?fun_0 INLINECALLDICT
-    ?fun_8 INLINECALLDICT
+    ?fun_9 INLINECALLDICT
     s1 POP
   }>
-  ?fun_10 PROCREF:<{
+  ?fun_11 PROCREF:<{
     10 PUSHINT
   }>
-  ?fun_9 PROC:<{
+  ?fun_10 PROC:<{
     ?fun_0 INLINECALLDICT
-    ?fun_10 INLINECALLDICT
+    ?fun_11 INLINECALLDICT
     s1 POP
   }>
-  ?fun_11 PROC:<{
+  ?fun_12 PROC:<{
+    x{697066733A2F2F516D646674447557376B676555556A436167627761424159394A696A6270616A354C347147714D5253314344765282_} PUSHSLICE
+  }>
+  ?fun_13 PROC:<{
     ?fun_0 INLINECALLDICT
     ?fun_1 INLINECALLDICT
     s1 POP
   }>
-  ?fun_13 PROCREF:<{
+  ?fun_15 PROCREF:<{
     123000000000 PUSHINT
   }>
-  ?fun_12 PROC:<{
+  ?fun_14 PROC:<{
     ?fun_0 INLINECALLDICT
-    ?fun_13 INLINECALLDICT
+    ?fun_15 INLINECALLDICT
     s1 POP
   }>
 }END>c

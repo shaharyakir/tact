@@ -20,13 +20,13 @@ PROGRAM{
   DECLPROC $Slice$_fun_asCell
   DECLPROC $String$_fun_asComment
   DECLPROC $Echo$_fun_hello
-  DECLPROC $Echo$_receive_any_text
-  DECLPROC $Echo$_receive_any
+  DECLPROC $Echo$_internal_any_text
+  DECLPROC $Echo$_internal_any
   115554 DECLMETHOD %hello
   113617 DECLMETHOD supported_interfaces
-  DECLPROC get_abi_ipfs
-  DECLPROC lazy_deployment_completed
-  DECLPROC $Echo$_contract_router
+  121275 DECLMETHOD get_abi_ipfs
+  115390 DECLMETHOD lazy_deployment_completed
+  DECLPROC $Echo$_contract_router_internal
   DECLPROC recv_internal
   DECLGLOBVAR __tact_context
   DECLGLOBVAR __tact_context_sender
@@ -318,7 +318,7 @@ PROGRAM{
     PUSHNULL
     PUSHNULL
   }>
-  $global_reply PROCREF:<{
+  $global_reply PROCINLINE:<{
     TRUE
     __tact_context_get_sender INLINECALLDICT
     0 PUSHINT
@@ -329,7 +329,7 @@ PROGRAM{
     $SendParameters$_constructor_bounce_to_value_mode_body INLINECALLDICT
     $global_send INLINECALLDICT
   }>
-  $Slice$_fun_asCell PROCREF:<{
+  $Slice$_fun_asCell PROCINLINE:<{
     NEWC
     SWAP
     STSLICER
@@ -349,11 +349,11 @@ PROGRAM{
     __tact_string_builder_append INLINECALLDICT
     __tact_string_builder_end_slice INLINECALLDICT
   }>
-  $Echo$_receive_any_text PROCINLINE:<{
+  $Echo$_internal_any_text PROCINLINE:<{
     $String$_fun_asComment INLINECALLDICT
     $global_reply INLINECALLDICT
   }>
-  $Echo$_receive_any PROCINLINE:<{
+  $Echo$_internal_any PROCINLINE:<{
     $Slice$_fun_asCell INLINECALLDICT
     $global_reply INLINECALLDICT
   }>
@@ -378,7 +378,7 @@ PROGRAM{
     1 LDI
     SWAP
   }>
-  $Echo$_contract_router PROCREF:<{
+  $Echo$_contract_router_internal PROCREF:<{
     c2 SAVE
     SAMEALTSAVE
     OVER
@@ -412,12 +412,12 @@ PROGRAM{
       IFJMP:<{
         32 PUSHINT
         SDSKIPFIRST
-        $Echo$_receive_any_text INLINECALLDICT
+        $Echo$_internal_any_text INLINECALLDICT
         TRUE
         RETALT
       }>
     }>
-    $Echo$_receive_any INLINECALLDICT
+    $Echo$_internal_any INLINECALLDICT
     TRUE
   }>
   recv_internal PROC:<{
@@ -440,7 +440,7 @@ PROGRAM{
     __tact_context_sender SETGLOB
     $Echo$_contract_load INLINECALLDICT
     -ROT
-    $Echo$_contract_router INLINECALLDICT
+    $Echo$_contract_router_internal INLINECALLDICT
     DROP
     $Echo$_contract_store INLINECALLDICT
   }>

@@ -8,9 +8,9 @@ PROGRAM{
   DECLPROC $Empty$_fun_a
   97415 DECLMETHOD %a
   113617 DECLMETHOD supported_interfaces
-  DECLPROC get_abi_ipfs
-  DECLPROC lazy_deployment_completed
-  DECLPROC $Empty$_contract_router
+  121275 DECLMETHOD get_abi_ipfs
+  115390 DECLMETHOD lazy_deployment_completed
+  DECLPROC $Empty$_contract_router_internal
   DECLPROC recv_internal
   DECLGLOBVAR __tact_context
   DECLGLOBVAR __tact_context_sender
@@ -127,7 +127,7 @@ PROGRAM{
     1 LDI
     SWAP
   }>
-  $Empty$_contract_router PROCREF:<{
+  $Empty$_contract_router_internal PROCREF:<{
     OVER
     IF:<{
       32 PUSHINT
@@ -168,7 +168,7 @@ PROGRAM{
     __tact_context_sender SETGLOB
     $Empty$_contract_load INLINECALLDICT
     -ROT
-    $Empty$_contract_router INLINECALLDICT
+    $Empty$_contract_router_internal INLINECALLDICT
     DROP
     $Empty$_contract_store INLINECALLDICT
   }>

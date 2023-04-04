@@ -63,6 +63,7 @@ Tact {
                       | extends --extends
                       | virtual --virtual
                       | overrides --overrides
+                      | inline --inline
     Function = FunctionAttribute* fun id "(" ListOf<FunctionArg,","> ")" "{" Statement* "}" --withVoid
              | FunctionAttribute* fun id "(" ListOf<FunctionArg,","> ")" ":" Type "{" Statement* "}" --withType
     FunctionArg = id ":" Type
@@ -73,6 +74,9 @@ Tact {
                     | "receive" "(" stringLiteral ")" "{" Statement* "}" --comment
                     | "bounced" "(" FunctionArg ")" "{" Statement* "}" --bouncedEmpty // TODO this needs to reject non-Slice args
                     | "bounced" "(" BouncedFunctionArg ")" "{" Statement* "}" --bouncedSimple
+                    | "external" "(" FunctionArg ")" "{" Statement* "}" --externalSimple
+                    | "external" "(" stringLiteral ")" "{" Statement* "}" --externalComment
+                    | "external" "(" ")" "{" Statement* "}" --externalEmpty
 
     // Statements
     Statement = StatementLet
@@ -210,6 +214,7 @@ Tact {
             | initOf
             | overrides
             | virtual
+            | inline
     contract = "contract" ~idPart
     let = "let" ~idPart
     fun = "fun" ~idPart
@@ -233,6 +238,7 @@ Tact {
     initOf = "initOf" ~idPart
     virtual = "virtual" ~idPart
     overrides = "overrides" ~idPart
+    inline = "inline" ~idPart
 
     // Attributes
     nameAttribute = "@name"

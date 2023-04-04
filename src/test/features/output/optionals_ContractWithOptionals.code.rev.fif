@@ -34,16 +34,18 @@ PROGRAM{
   DECLPROC supported_interfaces;
   DECLPROC ?fun_32;
   DECLPROC ?fun_31;
-  DECLPROC ?fun_34;
   DECLPROC ?fun_33;
-  DECLPROC ?fun_36;
   DECLPROC ?fun_35;
+  DECLPROC ?fun_34;
+  DECLPROC ?fun_36;
   DECLPROC ?fun_38;
   DECLPROC ?fun_37;
   DECLPROC ?fun_40;
   DECLPROC ?fun_39;
   DECLPROC ?fun_42;
   DECLPROC ?fun_41;
+  DECLPROC ?fun_44;
+  DECLPROC ?fun_43;
   ?fun_1 PROCREF:<{
     1 LDI
     s0 s1 XCHG
@@ -1053,27 +1055,25 @@ PROGRAM{
     }> PUSHCONT
     IFELSE
   }>
-  ?fun_34 PROCREF:<{
+  ?fun_33 PROC:<{
+    c4 PUSH
+    CTOS
+    1 LDI
+    s0 s1 XCHG
+  }>
+  ?fun_35 PROCREF:<{
     s5 PUSH
   }>
-  ?fun_33 PROC:<{
+  ?fun_34 PROC:<{
     ?fun_0 INLINECALLDICT
-    ?fun_34 INLINECALLDICT
+    ?fun_35 INLINECALLDICT
     6 1 BLKDROP2
   }>
-  ?fun_36 PROCREF:<{
-    s4 PUSH
-  }>
-  ?fun_35 PROC:<{
-    ?fun_0 INLINECALLDICT
-    ?fun_36 INLINECALLDICT
-    6 1 BLKDROP2
+  ?fun_36 PROC:<{
+    x{697066733A2F2F516D624538474555725148634239356272545062556B506131426E5562354D37454C544D545659646E586268627382_} PUSHSLICE
   }>
   ?fun_38 PROCREF:<{
-    s2 PUSH
-    s0 PUSH
-    ISNULL
-    128 THROWIF
+    s4 PUSH
   }>
   ?fun_37 PROC:<{
     ?fun_0 INLINECALLDICT
@@ -1081,7 +1081,10 @@ PROGRAM{
     6 1 BLKDROP2
   }>
   ?fun_40 PROCREF:<{
-    s3 PUSH
+    s2 PUSH
+    s0 PUSH
+    ISNULL
+    128 THROWIF
   }>
   ?fun_39 PROC:<{
     ?fun_0 INLINECALLDICT
@@ -1089,15 +1092,23 @@ PROGRAM{
     6 1 BLKDROP2
   }>
   ?fun_42 PROCREF:<{
+    s3 PUSH
+  }>
+  ?fun_41 PROC:<{
+    ?fun_0 INLINECALLDICT
+    ?fun_42 INLINECALLDICT
+    6 1 BLKDROP2
+  }>
+  ?fun_44 PROCREF:<{
     s1 PUSH
     s0 PUSH
     ISNULL
     128 THROWIF
     5 UNTUPLE
   }>
-  ?fun_41 PROC:<{
+  ?fun_43 PROC:<{
     ?fun_0 INLINECALLDICT
-    ?fun_42 INLINECALLDICT
+    ?fun_44 INLINECALLDICT
     6 5 BLKDROP2
   }>
 }END>c

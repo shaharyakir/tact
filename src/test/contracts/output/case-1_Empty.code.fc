@@ -53,11 +53,11 @@ _ supported_interfaces() method_id {
     );
 }
 
-_ get_abi_ipfs() {
+_ get_abi_ipfs() method_id {
     return "ipfs://QmevJcAufvYYaafzMzpw6wHJNmfVhyBDgoFah3UnM8HNxx";
 }
 
-_ lazy_deployment_completed() {
+_ lazy_deployment_completed() method_id {
     return get_data().begin_parse().load_int(1);
 }
 
@@ -65,7 +65,7 @@ _ lazy_deployment_completed() {
 ;; Routing of a Contract Empty
 ;;
 
-(tuple, int) $Empty$_contract_router(tuple self, int msg_bounced, slice in_msg) impure inline_ref {
+(tuple, int) $Empty$_contract_router_internal(tuple self, int msg_bounced, slice in_msg) impure inline_ref {
     
     if (msg_bounced) {
         ;; Skip 0xFFFFFFFF
@@ -101,7 +101,7 @@ _ lazy_deployment_completed() {
     var self = $Empty$_contract_load();
     
     ;; Handle operation
-    int handled = self~$Empty$_contract_router(msg_bounced, in_msg);
+    int handled = self~$Empty$_contract_router_internal(msg_bounced, in_msg);
     
     ;; Throw if not handled
     throw_unless(handled, 130);

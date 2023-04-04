@@ -26,6 +26,14 @@
       "output": "./examples/output"
     },
     {
+      "name": "external",
+      "path": "./examples/external.tact",
+      "output": "./examples/output",
+      "options": {
+        "external": true
+      }
+    },
+    {
       "name": "wallet",
       "path": "./examples/wallet.tact",
       "output": "./examples/output"
@@ -213,6 +221,14 @@
         "experimental": {
           "inline": true
         }
+      }
+    },
+    {
+      "name": "bugs",
+      "path": "./src/test/bugs/bugs.tact",
+      "output": "./src/test/bugs/output",
+      "options": {
+        "debug": true
       }
     }
   ]

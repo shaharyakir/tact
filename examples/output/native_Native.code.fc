@@ -17,7 +17,7 @@
 ;; Receivers of a Contract Native
 ;;
 
-((int), ()) $Native$_receive_text_cdd0f5966a37922238a6954ee918a162cc590409ef65f094cee81e9d0bc52bb4((int) $self) impure inline {
+((int), ()) $Native$_internal_text_cdd0f5966a37922238a6954ee918a162cc590409ef65f094cee81e9d0bc52bb4((int) $self) impure inline {
     var ($self'value) = $self;
     $self'value = ($self'value + hello_world());
     return (($self'value), ());
@@ -36,11 +36,11 @@ _ supported_interfaces() method_id {
     );
 }
 
-_ get_abi_ipfs() {
+_ get_abi_ipfs() method_id {
     return "ipfs://QmTsDMmXcb5JEAbi7uuFEsgLcJPoGid588sFfRBm4G9Muv";
 }
 
-_ lazy_deployment_completed() {
+_ lazy_deployment_completed() method_id {
     return get_data().begin_parse().load_int(1);
 }
 
@@ -48,7 +48,7 @@ _ lazy_deployment_completed() {
 ;; Routing of a Contract Native
 ;;
 
-((int), int) $Native$_contract_router((int) self, int msg_bounced, slice in_msg) impure inline_ref {
+((int), int) $Native$_contract_router_internal((int) self, int msg_bounced, slice in_msg) impure inline_ref {
     
     if (msg_bounced) {
         ;; Skip 0xFFFFFFFF
@@ -73,7 +73,7 @@ _ lazy_deployment_completed() {
         
         ;; Receive "Increment" message
         if (text_op == 0xcdd0f5966a37922238a6954ee918a162cc590409ef65f094cee81e9d0bc52bb4) {
-            self~$Native$_receive_text_cdd0f5966a37922238a6954ee918a162cc590409ef65f094cee81e9d0bc52bb4();
+            self~$Native$_internal_text_cdd0f5966a37922238a6954ee918a162cc590409ef65f094cee81e9d0bc52bb4();
             return (self, true);
         }
     }
@@ -95,7 +95,7 @@ _ lazy_deployment_completed() {
     var self = $Native$_contract_load();
     
     ;; Handle operation
-    int handled = self~$Native$_contract_router(msg_bounced, in_msg);
+    int handled = self~$Native$_contract_router_internal(msg_bounced, in_msg);
     
     ;; Throw if not handled
     throw_unless(handled, 130);

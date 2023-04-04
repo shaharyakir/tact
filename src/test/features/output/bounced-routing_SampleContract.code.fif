@@ -20,17 +20,17 @@ PROGRAM{
   DECLPROC $SampleContract$_fun_amount
   DECLPROC $SendParameters$_constructor_to_value_mode_bounce_body
   DECLPROC $First$_constructor_amount_myCoins_myBool3_anAddress
-  DECLPROC %$SampleContract$_receive_empty
-  DECLPROC $SampleContract$_receive_binary_Entry
-  DECLPROC $SampleContract$_receive_binary_Second
-  DECLPROC $SampleContract$_receive_text_cdd0f5966a37922238a6954ee918a162cc590409ef65f094cee81e9d0bc52bb4
+  DECLPROC %$SampleContract$_internal_empty
+  DECLPROC $SampleContract$_internal_binary_Entry
+  DECLPROC $SampleContract$_internal_binary_Second
+  DECLPROC $SampleContract$_internal_text_cdd0f5966a37922238a6954ee918a162cc590409ef65f094cee81e9d0bc52bb4
   DECLPROC $SampleContract$_receive_binary_bounce_Slice
   DECLPROC $SampleContract$_receive_binary_bounce_First
   101100 DECLMETHOD %amount
   113617 DECLMETHOD supported_interfaces
-  DECLPROC get_abi_ipfs
-  DECLPROC lazy_deployment_completed
-  DECLPROC $SampleContract$_contract_router
+  121275 DECLMETHOD get_abi_ipfs
+  115390 DECLMETHOD lazy_deployment_completed
+  DECLPROC $SampleContract$_contract_router_internal
   DECLPROC recv_internal
   DECLGLOBVAR __tact_context
   DECLGLOBVAR __tact_context_sender
@@ -301,9 +301,9 @@ PROGRAM{
   }>
   $First$_constructor_amount_myCoins_myBool3_anAddress PROCINLINE:<{
   }>
-  %$SampleContract$_receive_empty PROCINLINE:<{
+  %$SampleContract$_internal_empty PROCINLINE:<{
   }>
-  $SampleContract$_receive_binary_Entry PROCINLINE:<{
+  $SampleContract$_internal_binary_Entry PROCINLINE:<{
     s2 s1 XCPU
     SUB
     1000000000 PUSHINT
@@ -321,10 +321,10 @@ PROGRAM{
     $SendParameters$_constructor_to_value_mode_bounce_body INLINECALLDICT
     $global_send INLINECALLDICT
   }>
-  $SampleContract$_receive_binary_Second PROCINLINE:<{
+  $SampleContract$_internal_binary_Second PROCINLINE:<{
     7 BLKDROP
   }>
-  $SampleContract$_receive_text_cdd0f5966a37922238a6954ee918a162cc590409ef65f094cee81e9d0bc52bb4 PROCINLINE:<{
+  $SampleContract$_internal_text_cdd0f5966a37922238a6954ee918a162cc590409ef65f094cee81e9d0bc52bb4 PROCINLINE:<{
   }>
   $SampleContract$_receive_binary_bounce_Slice PROCINLINE:<{
     DROP
@@ -360,7 +360,7 @@ PROGRAM{
     1 LDI
     SWAP
   }>
-  $SampleContract$_contract_router PROCREF:<{
+  $SampleContract$_contract_router_internal PROCREF:<{
     c2 SAVE
     SAMEALTSAVE
     OVER
@@ -402,7 +402,7 @@ PROGRAM{
     AND
     IFJMP:<{
       2DROP
-      %$SampleContract$_receive_empty INLINECALLDICT
+      %$SampleContract$_internal_empty INLINECALLDICT
       TRUE
     }>
     OVER
@@ -412,7 +412,7 @@ PROGRAM{
       NIP
       $Entry$_load INLINECALLDICT
       1 2 BLKDROP2
-      $SampleContract$_receive_binary_Entry INLINECALLDICT
+      $SampleContract$_internal_binary_Entry INLINECALLDICT
       TRUE
     }>
     OVER
@@ -422,7 +422,7 @@ PROGRAM{
       NIP
       $Second$_load INLINECALLDICT
       1 7 BLKDROP2
-      $SampleContract$_receive_binary_Second INLINECALLDICT
+      $SampleContract$_internal_binary_Second INLINECALLDICT
       TRUE
     }>
     SWAP
@@ -432,7 +432,7 @@ PROGRAM{
       93093333132076440750103890131866374745660412111105226855661378207494015626164 PUSHINT
       EQUAL
       IFJMP:<{
-        $SampleContract$_receive_text_cdd0f5966a37922238a6954ee918a162cc590409ef65f094cee81e9d0bc52bb4 INLINECALLDICT
+        $SampleContract$_internal_text_cdd0f5966a37922238a6954ee918a162cc590409ef65f094cee81e9d0bc52bb4 INLINECALLDICT
         TRUE
         RETALT
       }>
@@ -461,7 +461,7 @@ PROGRAM{
     __tact_context_sender SETGLOB
     $SampleContract$_contract_load INLINECALLDICT
     -ROT
-    $SampleContract$_contract_router INLINECALLDICT
+    $SampleContract$_contract_router_internal INLINECALLDICT
     DROP
     $SampleContract$_contract_store INLINECALLDICT
   }>

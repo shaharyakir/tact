@@ -22,7 +22,7 @@
 ;; Receivers of a Contract B
 ;;
 
-((slice), ()) $B$_receive_text_b41a9933301c1d728e64e23685fe3a9c7540ab9359ef7318943c0ee5e0910d5d((slice) $self) impure inline {
+((slice), ()) $B$_internal_text_b41a9933301c1d728e64e23685fe3a9c7540ab9359ef7318943c0ee5e0910d5d((slice) $self) impure inline {
     var ($self'parent) = $self;
     var ($init'code, $init'data) = $C$_init_child(__tact_context_sys, my_address());
     slice $address = $global_contractAddress(($init'code, $init'data));
@@ -50,11 +50,11 @@ _ supported_interfaces() method_id {
     );
 }
 
-_ get_abi_ipfs() {
+_ get_abi_ipfs() method_id {
     return "ipfs://QmU6mM8yaVFdQC6H6ZkB7NzzMbrj92Ag1DeYKL6hmeUx6H";
 }
 
-_ lazy_deployment_completed() {
+_ lazy_deployment_completed() method_id {
     return get_data().begin_parse().load_int(1);
 }
 
@@ -62,7 +62,7 @@ _ lazy_deployment_completed() {
 ;; Routing of a Contract B
 ;;
 
-((slice), int) $B$_contract_router((slice) self, int msg_bounced, slice in_msg) impure inline_ref {
+((slice), int) $B$_contract_router_internal((slice) self, int msg_bounced, slice in_msg) impure inline_ref {
     
     if (msg_bounced) {
         ;; Skip 0xFFFFFFFF
@@ -87,7 +87,7 @@ _ lazy_deployment_completed() {
         
         ;; Receive "Message" message
         if (text_op == 0xb41a9933301c1d728e64e23685fe3a9c7540ab9359ef7318943c0ee5e0910d5d) {
-            self~$B$_receive_text_b41a9933301c1d728e64e23685fe3a9c7540ab9359ef7318943c0ee5e0910d5d();
+            self~$B$_internal_text_b41a9933301c1d728e64e23685fe3a9c7540ab9359ef7318943c0ee5e0910d5d();
             return (self, true);
         }
     }
@@ -109,7 +109,7 @@ _ lazy_deployment_completed() {
     var self = $B$_contract_load();
     
     ;; Handle operation
-    int handled = self~$B$_contract_router(msg_bounced, in_msg);
+    int handled = self~$B$_contract_router_internal(msg_bounced, in_msg);
     
     ;; Throw if not handled
     throw_unless(handled, 130);

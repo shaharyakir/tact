@@ -19,14 +19,14 @@ PROGRAM{
   DECLPROC $Treasure$_fun_requireOwner
   DECLPROC $Treasure$_fun_doWithdraw
   DECLPROC $Treasure$_fun_owner
-  DECLPROC $Treasure$_receive_binary_Withdraw
-  DECLPROC $Treasure$_receive_text_986c2ba124bb9287eb4a0bd8d3104e1c0067a3c93952d889c74d08185bd30d4d
-  DECLPROC $Treasure$_receive_binary_ChangeOwner
+  DECLPROC $Treasure$_internal_binary_Withdraw
+  DECLPROC $Treasure$_internal_text_986c2ba124bb9287eb4a0bd8d3104e1c0067a3c93952d889c74d08185bd30d4d
+  DECLPROC $Treasure$_internal_binary_ChangeOwner
   83229 DECLMETHOD %owner
   113617 DECLMETHOD supported_interfaces
-  DECLPROC get_abi_ipfs
-  DECLPROC lazy_deployment_completed
-  DECLPROC $Treasure$_contract_router
+  121275 DECLMETHOD get_abi_ipfs
+  115390 DECLMETHOD lazy_deployment_completed
+  DECLPROC $Treasure$_contract_router_internal
   DECLPROC recv_internal
   DECLGLOBVAR __tact_context
   DECLGLOBVAR __tact_context_sender
@@ -262,15 +262,15 @@ PROGRAM{
   $Treasure$_fun_owner PROCREF:<{
     DUP
   }>
-  $Treasure$_receive_binary_Withdraw PROCINLINE:<{
+  $Treasure$_internal_binary_Withdraw PROCINLINE:<{
     $Treasure$_fun_doWithdraw INLINECALLDICT
   }>
-  $Treasure$_receive_text_986c2ba124bb9287eb4a0bd8d3104e1c0067a3c93952d889c74d08185bd30d4d PROCINLINE:<{
+  $Treasure$_internal_text_986c2ba124bb9287eb4a0bd8d3104e1c0067a3c93952d889c74d08185bd30d4d PROCINLINE:<{
     0 PUSHINT
     160 PUSHINT
     $Treasure$_fun_doWithdraw INLINECALLDICT
   }>
-  $Treasure$_receive_binary_ChangeOwner PROCINLINE:<{
+  $Treasure$_internal_binary_ChangeOwner PROCINLINE:<{
     SWAP
     $Treasure$_fun_requireOwner INLINECALLDICT
     DROP
@@ -297,7 +297,7 @@ PROGRAM{
     1 LDI
     SWAP
   }>
-  $Treasure$_contract_router PROCREF:<{
+  $Treasure$_contract_router_internal PROCREF:<{
     c2 SAVE
     SAMEALTSAVE
     OVER
@@ -329,7 +329,7 @@ PROGRAM{
       NIP
       $Withdraw$_load INLINECALLDICT
       1 2 BLKDROP2
-      $Treasure$_receive_binary_Withdraw INLINECALLDICT
+      $Treasure$_internal_binary_Withdraw INLINECALLDICT
       TRUE
     }>
     OVER
@@ -339,7 +339,7 @@ PROGRAM{
       NIP
       $ChangeOwner$_load INLINECALLDICT
       NIP
-      $Treasure$_receive_binary_ChangeOwner INLINECALLDICT
+      $Treasure$_internal_binary_ChangeOwner INLINECALLDICT
       TRUE
     }>
     SWAP
@@ -349,7 +349,7 @@ PROGRAM{
       68942673587165287250091431766268285359585855031594722650534428464957340454221 PUSHINT
       EQUAL
       IFJMP:<{
-        $Treasure$_receive_text_986c2ba124bb9287eb4a0bd8d3104e1c0067a3c93952d889c74d08185bd30d4d INLINECALLDICT
+        $Treasure$_internal_text_986c2ba124bb9287eb4a0bd8d3104e1c0067a3c93952d889c74d08185bd30d4d INLINECALLDICT
         TRUE
         RETALT
       }>
@@ -378,7 +378,7 @@ PROGRAM{
     __tact_context_sender SETGLOB
     $Treasure$_contract_load INLINECALLDICT
     -ROT
-    $Treasure$_contract_router INLINECALLDICT
+    $Treasure$_contract_router_internal INLINECALLDICT
     DROP
     $Treasure$_contract_store INLINECALLDICT
   }>

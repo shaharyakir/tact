@@ -16,8 +16,8 @@ PROGRAM{
   DECLPROC $SerializationTester$_fun_getG
   DECLPROC $SerializationTester$_fun_getH
   DECLPROC $SerializationTester$_fun_getI
-  DECLPROC %$SerializationTester$_receive_empty
-  DECLPROC $SerializationTester$_receive_binary_Update
+  DECLPROC %$SerializationTester$_internal_empty
+  DECLPROC $SerializationTester$_internal_binary_Update
   123932 DECLMETHOD %getA
   119935 DECLMETHOD %getB
   115806 DECLMETHOD %getC
@@ -28,9 +28,9 @@ PROGRAM{
   95541 DECLMETHOD %getH
   91412 DECLMETHOD %getI
   113617 DECLMETHOD supported_interfaces
-  DECLPROC get_abi_ipfs
-  DECLPROC lazy_deployment_completed
-  DECLPROC $SerializationTester$_contract_router
+  121275 DECLMETHOD get_abi_ipfs
+  115390 DECLMETHOD lazy_deployment_completed
+  DECLPROC $SerializationTester$_contract_router_internal
   DECLPROC recv_internal
   DECLGLOBVAR __tact_context
   DECLGLOBVAR __tact_context_sender
@@ -248,9 +248,9 @@ PROGRAM{
   $SerializationTester$_fun_getI PROCREF:<{
     DUP
   }>
-  %$SerializationTester$_receive_empty PROCINLINE:<{
+  %$SerializationTester$_internal_empty PROCINLINE:<{
   }>
-  $SerializationTester$_receive_binary_Update PROCINLINE:<{
+  $SerializationTester$_internal_binary_Update PROCINLINE:<{
     s2 POP
     s8 POP
     s8 POP
@@ -323,7 +323,7 @@ PROGRAM{
     1 LDI
     SWAP
   }>
-  $SerializationTester$_contract_router PROCREF:<{
+  $SerializationTester$_contract_router_internal PROCREF:<{
     OVER
     IF:<{
       32 PUSHINT
@@ -354,7 +354,7 @@ PROGRAM{
     AND
     IFJMP:<{
       2DROP
-      %$SerializationTester$_receive_empty INLINECALLDICT
+      %$SerializationTester$_internal_empty INLINECALLDICT
       TRUE
     }>
     SWAP
@@ -363,7 +363,7 @@ PROGRAM{
     IFJMP:<{
       $Update$_load INLINECALLDICT
       1 9 BLKDROP2
-      $SerializationTester$_receive_binary_Update INLINECALLDICT
+      $SerializationTester$_internal_binary_Update INLINECALLDICT
       TRUE
     }>
     DROP
@@ -389,7 +389,7 @@ PROGRAM{
     __tact_context_sender SETGLOB
     $SerializationTester$_contract_load INLINECALLDICT
     2 9 BLKSWAP
-    $SerializationTester$_contract_router INLINECALLDICT
+    $SerializationTester$_contract_router_internal INLINECALLDICT
     DROP
     $SerializationTester$_contract_store INLINECALLDICT
   }>

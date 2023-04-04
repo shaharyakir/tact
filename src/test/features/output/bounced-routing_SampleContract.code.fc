@@ -22,12 +22,12 @@
 ;; Receivers of a Contract SampleContract
 ;;
 
-(((int)), ()) %$SampleContract$_receive_empty((int) $self) impure inline {
+(((int)), ()) %$SampleContract$_internal_empty((int) $self) impure inline {
     var ($self'a) = $self;
     return (($self'a), ());
 }
 
-(((int)), ()) $SampleContract$_receive_binary_Entry((int) $self, (int, slice) $msg) impure inline {
+(((int)), ()) $SampleContract$_internal_binary_Entry((int) $self, (int, slice) $msg) impure inline {
     var ($self'a) = $self;
     var ($msg'amountToAdd, $msg'toAddress) = $msg;
     $self'a = ($self'a - $msg'amountToAdd);
@@ -35,13 +35,13 @@
     return (($self'a), ());
 }
 
-(((int)), ()) $SampleContract$_receive_binary_Second((int) $self, (int, int, int, slice, int, (int), (int)) $msg) impure inline {
+(((int)), ()) $SampleContract$_internal_binary_Second((int) $self, (int, int, int, slice, int, (int), (int)) $msg) impure inline {
     var ($self'a) = $self;
     var ($msg'amount_bigger, $msg'myBool, $msg'thisDoesNotFit, $msg'myAddress, $msg'myBool2, ($msg'myStruct'amount), ($msg'myStruct2'amount)) = $msg;
     return (($self'a), ());
 }
 
-((int), ()) $SampleContract$_receive_text_cdd0f5966a37922238a6954ee918a162cc590409ef65f094cee81e9d0bc52bb4((int) $self) impure inline {
+((int), ()) $SampleContract$_internal_text_cdd0f5966a37922238a6954ee918a162cc590409ef65f094cee81e9d0bc52bb4((int) $self) impure inline {
     var ($self'a) = $self;
     return (($self'a), ());
 }
@@ -82,11 +82,11 @@ _ supported_interfaces() method_id {
     );
 }
 
-_ get_abi_ipfs() {
+_ get_abi_ipfs() method_id {
     return "ipfs://QmcehhZzQweagd1KLeCnEaVWJoiAadNuBDcMZ6evUE5cfZ";
 }
 
-_ lazy_deployment_completed() {
+_ lazy_deployment_completed() method_id {
     return get_data().begin_parse().load_int(1);
 }
 
@@ -94,7 +94,7 @@ _ lazy_deployment_completed() {
 ;; Routing of a Contract SampleContract
 ;;
 
-((int), int) $SampleContract$_contract_router((int) self, int msg_bounced, slice in_msg) impure inline_ref {
+((int), int) $SampleContract$_contract_router_internal((int) self, int msg_bounced, slice in_msg) impure inline_ref {
     
     if (msg_bounced) {
         ;; Skip 0xFFFFFFFF
@@ -125,21 +125,21 @@ _ lazy_deployment_completed() {
     
     ;; Receive empty message
     if ((op == 0) & (slice_bits(in_msg) <= 32)) {
-        self~%$SampleContract$_receive_empty();
+        self~%$SampleContract$_internal_empty();
         return (self, true);
     }
     
     ;; Receive Entry message
     if (op == 3838520892) {
         var msg = in_msg~$Entry$_load();
-        self~$SampleContract$_receive_binary_Entry(msg);
+        self~$SampleContract$_internal_binary_Entry(msg);
         return (self, true);
     }
     
     ;; Receive Second message
     if (op == 391585480) {
         var msg = in_msg~$Second$_load();
-        self~$SampleContract$_receive_binary_Second(msg);
+        self~$SampleContract$_internal_binary_Second(msg);
         return (self, true);
     }
     
@@ -149,7 +149,7 @@ _ lazy_deployment_completed() {
         
         ;; Receive "Increment" message
         if (text_op == 0xcdd0f5966a37922238a6954ee918a162cc590409ef65f094cee81e9d0bc52bb4) {
-            self~$SampleContract$_receive_text_cdd0f5966a37922238a6954ee918a162cc590409ef65f094cee81e9d0bc52bb4();
+            self~$SampleContract$_internal_text_cdd0f5966a37922238a6954ee918a162cc590409ef65f094cee81e9d0bc52bb4();
             return (self, true);
         }
     }
@@ -171,7 +171,7 @@ _ lazy_deployment_completed() {
     var self = $SampleContract$_contract_load();
     
     ;; Handle operation
-    int handled = self~$SampleContract$_contract_router(msg_bounced, in_msg);
+    int handled = self~$SampleContract$_contract_router_internal(msg_bounced, in_msg);
     
     ;; Throw if not handled
     throw_unless(handled, 130);

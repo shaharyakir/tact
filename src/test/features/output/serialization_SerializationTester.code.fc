@@ -69,12 +69,12 @@
 ;; Receivers of a Contract SerializationTester
 ;;
 
-(((int, int, int, int, int, int, int, int, int)), ()) %$SerializationTester$_receive_empty((int, int, int, int, int, int, int, int, int) $self) impure inline {
+(((int, int, int, int, int, int, int, int, int)), ()) %$SerializationTester$_internal_empty((int, int, int, int, int, int, int, int, int) $self) impure inline {
     var ($self'a, $self'b, $self'c, $self'd, $self'e, $self'f, $self'g, $self'h, $self'i) = $self;
     return (($self'a, $self'b, $self'c, $self'd, $self'e, $self'f, $self'g, $self'h, $self'i), ());
 }
 
-(((int, int, int, int, int, int, int, int, int)), ()) $SerializationTester$_receive_binary_Update((int, int, int, int, int, int, int, int, int) $self, (int, int, int, int, int, int, int, int, int) $msg) impure inline {
+(((int, int, int, int, int, int, int, int, int)), ()) $SerializationTester$_internal_binary_Update((int, int, int, int, int, int, int, int, int) $self, (int, int, int, int, int, int, int, int, int) $msg) impure inline {
     var ($self'a, $self'b, $self'c, $self'd, $self'e, $self'f, $self'g, $self'h, $self'i) = $self;
     var ($msg'a, $msg'b, $msg'c, $msg'd, $msg'e, $msg'f, $msg'g, $msg'h, $msg'i) = $msg;
     $self'a = $msg'a;
@@ -156,11 +156,11 @@ _ supported_interfaces() method_id {
     );
 }
 
-_ get_abi_ipfs() {
+_ get_abi_ipfs() method_id {
     return "ipfs://QmcQWMaGpif9hbBXFppQzUy5gHod88kFxjvtSybxTzkwV3";
 }
 
-_ lazy_deployment_completed() {
+_ lazy_deployment_completed() method_id {
     return get_data().begin_parse().load_int(1);
 }
 
@@ -168,7 +168,7 @@ _ lazy_deployment_completed() {
 ;; Routing of a Contract SerializationTester
 ;;
 
-((int, int, int, int, int, int, int, int, int), int) $SerializationTester$_contract_router((int, int, int, int, int, int, int, int, int) self, int msg_bounced, slice in_msg) impure inline_ref {
+((int, int, int, int, int, int, int, int, int), int) $SerializationTester$_contract_router_internal((int, int, int, int, int, int, int, int, int) self, int msg_bounced, slice in_msg) impure inline_ref {
     
     if (msg_bounced) {
         ;; Skip 0xFFFFFFFF
@@ -189,14 +189,14 @@ _ lazy_deployment_completed() {
     
     ;; Receive empty message
     if ((op == 0) & (slice_bits(in_msg) <= 32)) {
-        self~%$SerializationTester$_receive_empty();
+        self~%$SerializationTester$_internal_empty();
         return (self, true);
     }
     
     ;; Receive Update message
     if (op == 849061239) {
         var msg = in_msg~$Update$_load();
-        self~$SerializationTester$_receive_binary_Update(msg);
+        self~$SerializationTester$_internal_binary_Update(msg);
         return (self, true);
     }
     
@@ -217,7 +217,7 @@ _ lazy_deployment_completed() {
     var self = $SerializationTester$_contract_load();
     
     ;; Handle operation
-    int handled = self~$SerializationTester$_contract_router(msg_bounced, in_msg);
+    int handled = self~$SerializationTester$_contract_router_internal(msg_bounced, in_msg);
     
     ;; Throw if not handled
     throw_unless(handled, 130);

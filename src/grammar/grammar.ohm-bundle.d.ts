@@ -52,6 +52,7 @@ export interface TactActionDict<T> extends ActionDict<T> {
   FunctionAttribute_extends?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   FunctionAttribute_virtual?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   FunctionAttribute_overrides?: (this: NonterminalNode, arg0: NonterminalNode) => T;
+  FunctionAttribute_inline?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   FunctionAttribute?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   Function_withVoid?: (this: NonterminalNode, arg0: IterationNode, arg1: NonterminalNode, arg2: NonterminalNode, arg3: TerminalNode, arg4: NonterminalNode, arg5: TerminalNode, arg6: TerminalNode, arg7: IterationNode, arg8: TerminalNode) => T;
   Function_withType?: (this: NonterminalNode, arg0: IterationNode, arg1: NonterminalNode, arg2: NonterminalNode, arg3: TerminalNode, arg4: NonterminalNode, arg5: TerminalNode, arg6: TerminalNode, arg7: NonterminalNode, arg8: TerminalNode, arg9: IterationNode, arg10: TerminalNode) => T;
@@ -63,6 +64,9 @@ export interface TactActionDict<T> extends ActionDict<T> {
   ReceiveFunction_comment?: (this: NonterminalNode, arg0: TerminalNode, arg1: TerminalNode, arg2: NonterminalNode, arg3: TerminalNode, arg4: TerminalNode, arg5: IterationNode, arg6: TerminalNode) => T;
   ReceiveFunction_bouncedEmpty?: (this: NonterminalNode, arg0: TerminalNode, arg1: TerminalNode, arg2: NonterminalNode, arg3: TerminalNode, arg4: TerminalNode, arg5: IterationNode, arg6: TerminalNode) => T;
   ReceiveFunction_bouncedSimple?: (this: NonterminalNode, arg0: TerminalNode, arg1: TerminalNode, arg2: NonterminalNode, arg3: TerminalNode, arg4: TerminalNode, arg5: IterationNode, arg6: TerminalNode) => T;
+  ReceiveFunction_externalSimple?: (this: NonterminalNode, arg0: TerminalNode, arg1: TerminalNode, arg2: NonterminalNode, arg3: TerminalNode, arg4: TerminalNode, arg5: IterationNode, arg6: TerminalNode) => T;
+  ReceiveFunction_externalComment?: (this: NonterminalNode, arg0: TerminalNode, arg1: TerminalNode, arg2: NonterminalNode, arg3: TerminalNode, arg4: TerminalNode, arg5: IterationNode, arg6: TerminalNode) => T;
+  ReceiveFunction_externalEmpty?: (this: NonterminalNode, arg0: TerminalNode, arg1: TerminalNode, arg2: TerminalNode, arg3: TerminalNode, arg4: IterationNode, arg5: TerminalNode) => T;
   ReceiveFunction?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   Statement?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   StatementBlock?: (this: NonterminalNode, arg0: TerminalNode, arg1: IterationNode, arg2: TerminalNode) => T;
@@ -160,6 +164,7 @@ export interface TactActionDict<T> extends ActionDict<T> {
   initOf?: (this: NonterminalNode, arg0: TerminalNode) => T;
   virtual?: (this: NonterminalNode, arg0: TerminalNode) => T;
   overrides?: (this: NonterminalNode, arg0: TerminalNode) => T;
+  inline?: (this: NonterminalNode, arg0: TerminalNode) => T;
   nameAttribute?: (this: NonterminalNode, arg0: TerminalNode) => T;
   reservedWord?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   space?: (this: NonterminalNode, arg0: NonterminalNode | TerminalNode) => T;

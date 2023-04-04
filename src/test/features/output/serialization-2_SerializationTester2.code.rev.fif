@@ -13,10 +13,12 @@ PROGRAM{
   DECLPROC supported_interfaces;
   DECLPROC ?fun_11;
   DECLPROC ?fun_10;
-  DECLPROC ?fun_13;
   DECLPROC ?fun_12;
-  DECLPROC ?fun_15;
   DECLPROC ?fun_14;
+  DECLPROC ?fun_13;
+  DECLPROC ?fun_15;
+  DECLPROC ?fun_17;
+  DECLPROC ?fun_16;
   ?fun_0 PROCREF:<{
     c4 PUSH
     CTOS
@@ -518,22 +520,31 @@ PROGRAM{
     }> PUSHCONT
     IF
   }>
-  ?fun_13 PROCREF:<{
+  ?fun_12 PROC:<{
+    c4 PUSH
+    CTOS
+    1 LDI
+    s0 s1 XCHG
+  }>
+  ?fun_14 PROCREF:<{
     s4 s3 s2 PUSH3
     s4 s3 PUSH2
   }>
-  ?fun_12 PROC:<{
+  ?fun_13 PROC:<{
     ?fun_0 INLINECALLDICT
-    ?fun_13 INLINECALLDICT
+    ?fun_14 INLINECALLDICT
     10 5 BLKDROP2
   }>
-  ?fun_15 PROCREF:<{
+  ?fun_15 PROC:<{
+    x{697066733A2F2F516D5177744263533851386E31426848424C5454764D546E57524D576754664B6D34504736686544316B4355445582_} PUSHSLICE
+  }>
+  ?fun_17 PROCREF:<{
     s9 s8 s7 PUSH3
     s9 s8 PUSH2
   }>
-  ?fun_14 PROC:<{
+  ?fun_16 PROC:<{
     ?fun_0 INLINECALLDICT
-    ?fun_15 INLINECALLDICT
+    ?fun_17 INLINECALLDICT
     10 5 BLKDROP2
   }>
 }END>c

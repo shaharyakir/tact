@@ -70,6 +70,7 @@ export type FunctionDescription = {
     isMutating: boolean,
     isOverrides: boolean,
     isVirtual: boolean,
+    isInline: boolean,
     self: string | null,
     returns: TypeRef,
     args: FunctionArgument[],
@@ -103,7 +104,22 @@ export type ReceiverSelector = {
     name: string,
     type: string,
     isGeneric: boolean
-};
+} | {
+    kind: 'external-binary',
+    type: string,
+    name: string,
+} | {
+    kind: 'external-empty'
+} | {
+    kind: 'external-comment',
+    comment: string
+} | {
+    kind: 'external-comment-fallback',
+    name: string
+} | {
+    kind: 'external-fallback',
+    name: string
+}
 
 export type ReceiverDescription = {
     selector: ReceiverSelector,

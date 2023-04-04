@@ -25,7 +25,7 @@ tuple $RandomContract$_contract_init() impure inline_ref {
 ;; Receivers of a Contract RandomContract
 ;;
 
-((tuple), ()) $RandomContract$_receive_binary_Deploy(tuple $self, (int) $deploy) impure inline {
+((tuple), ()) $RandomContract$_internal_binary_Deploy(tuple $self, (int) $deploy) impure inline {
     var $self = $self;
     var ($deploy'queryId) = $deploy;
     $global_reply($DeployOk$_store_cell($DeployOk$_constructor_queryId($deploy'queryId)));
@@ -60,11 +60,11 @@ _ supported_interfaces() method_id {
     );
 }
 
-_ get_abi_ipfs() {
+_ get_abi_ipfs() method_id {
     return "ipfs://QmTDBjYBMtDJmZhPoL9NgPNyqYyqy5ZY45Z48PcGnmGn5g";
 }
 
-_ lazy_deployment_completed() {
+_ lazy_deployment_completed() method_id {
     return get_data().begin_parse().load_int(1);
 }
 
@@ -72,7 +72,7 @@ _ lazy_deployment_completed() {
 ;; Routing of a Contract RandomContract
 ;;
 
-(tuple, int) $RandomContract$_contract_router(tuple self, int msg_bounced, slice in_msg) impure inline_ref {
+(tuple, int) $RandomContract$_contract_router_internal(tuple self, int msg_bounced, slice in_msg) impure inline_ref {
     
     if (msg_bounced) {
         ;; Skip 0xFFFFFFFF
@@ -94,7 +94,7 @@ _ lazy_deployment_completed() {
     ;; Receive Deploy message
     if (op == 2490013878) {
         var msg = in_msg~$Deploy$_load();
-        self~$RandomContract$_receive_binary_Deploy(msg);
+        self~$RandomContract$_internal_binary_Deploy(msg);
         return (self, true);
     }
     
@@ -115,7 +115,7 @@ _ lazy_deployment_completed() {
     var self = $RandomContract$_contract_load();
     
     ;; Handle operation
-    int handled = self~$RandomContract$_contract_router(msg_bounced, in_msg);
+    int handled = self~$RandomContract$_contract_router_internal(msg_bounced, in_msg);
     
     ;; Throw if not handled
     throw_unless(handled, 130);

@@ -16,12 +16,12 @@ tuple $SampleContract2$_contract_init() impure inline_ref {
 ;; Receivers of a Contract SampleContract2
 ;;
 
-((tuple), ()) %$SampleContract2$_receive_empty(tuple $self) impure inline {
+((tuple), ()) %$SampleContract2$_internal_empty(tuple $self) impure inline {
     var $self = $self;
     return ($self, ());
 }
 
-((tuple), ()) $SampleContract2$_receive_binary_First(tuple $self, (int, int, int, slice) $msg) impure inline {
+((tuple), ()) $SampleContract2$_internal_binary_First(tuple $self, (int, int, int, slice) $msg) impure inline {
     var $self = $self;
     var ($msg'amount, $msg'myCoins, $msg'myBool3, $msg'anAddress) = $msg;
     __tact_debug_str(__gen_slice_string_6d7f3ad26da9b3094ad497db31f04fa832a70e84a71fb689a86fec6544e3147f());
@@ -43,11 +43,11 @@ _ supported_interfaces() method_id {
     );
 }
 
-_ get_abi_ipfs() {
+_ get_abi_ipfs() method_id {
     return "ipfs://QmbTrBstNRue1keJ3zCH6bxBBgEAteN8FseoLdTZ9FVwAh";
 }
 
-_ lazy_deployment_completed() {
+_ lazy_deployment_completed() method_id {
     return get_data().begin_parse().load_int(1);
 }
 
@@ -55,7 +55,7 @@ _ lazy_deployment_completed() {
 ;; Routing of a Contract SampleContract2
 ;;
 
-(tuple, int) $SampleContract2$_contract_router(tuple self, int msg_bounced, slice in_msg) impure inline_ref {
+(tuple, int) $SampleContract2$_contract_router_internal(tuple self, int msg_bounced, slice in_msg) impure inline_ref {
     
     if (msg_bounced) {
         ;; Skip 0xFFFFFFFF
@@ -76,14 +76,14 @@ _ lazy_deployment_completed() {
     
     ;; Receive empty message
     if ((op == 0) & (slice_bits(in_msg) <= 32)) {
-        self~%$SampleContract2$_receive_empty();
+        self~%$SampleContract2$_internal_empty();
         return (self, true);
     }
     
     ;; Receive First message
     if (op == 3200290616) {
         var msg = in_msg~$First$_load();
-        self~$SampleContract2$_receive_binary_First(msg);
+        self~$SampleContract2$_internal_binary_First(msg);
         return (self, true);
     }
     
@@ -104,7 +104,7 @@ _ lazy_deployment_completed() {
     var self = $SampleContract2$_contract_load();
     
     ;; Handle operation
-    int handled = self~$SampleContract2$_contract_router(msg_bounced, in_msg);
+    int handled = self~$SampleContract2$_contract_router_internal(msg_bounced, in_msg);
     
     ;; Throw if not handled
     throw_unless(handled, 130);

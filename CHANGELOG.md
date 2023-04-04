@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0-beta.9] - 2023-04-02
+
+## Added
+- Opt-in external messages support
+
+## [1.1.0-beta.8] - 2023-04-02
+
+## Fixed
+- Missing implementation  of `Address` to `Address` maps
+
+## [1.1.0-beta.7] - 2023-03-28
+
+## Added
+- `inline` modifier for functions to inline them into the caller
+
+## Fixed
+- Fix missing `method_id` in `get_abi_ipfs` and `lazy_deployment_completed`
+
 ## [1.1.0-beta.6] - 2023-03-27
 
 ## Changed

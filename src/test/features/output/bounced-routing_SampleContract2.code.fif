@@ -5,12 +5,12 @@ PROGRAM{
   DECLPROC $SampleContract2$_contract_init
   DECLPROC $SampleContract2$_contract_load
   DECLPROC $SampleContract2$_contract_store
-  DECLPROC %$SampleContract2$_receive_empty
-  DECLPROC $SampleContract2$_receive_binary_First
+  DECLPROC %$SampleContract2$_internal_empty
+  DECLPROC $SampleContract2$_internal_binary_First
   113617 DECLMETHOD supported_interfaces
-  DECLPROC get_abi_ipfs
-  DECLPROC lazy_deployment_completed
-  DECLPROC $SampleContract2$_contract_router
+  121275 DECLMETHOD get_abi_ipfs
+  115390 DECLMETHOD lazy_deployment_completed
+  DECLPROC $SampleContract2$_contract_router_internal
   DECLPROC recv_internal
   DECLGLOBVAR __tact_context
   DECLGLOBVAR __tact_context_sender
@@ -83,9 +83,9 @@ PROGRAM{
     ENDC
     c4 POP
   }>
-  %$SampleContract2$_receive_empty PROCINLINE:<{
+  %$SampleContract2$_internal_empty PROCINLINE:<{
   }>
-  $SampleContract2$_receive_binary_First PROCINLINE:<{
+  $SampleContract2$_internal_binary_First PROCINLINE:<{
     4 BLKDROP
     B{b5ee9c7241010101000b000012426f756e63696e672171662d75} B>boc <s PUSHSLICE
     STRDUMP
@@ -108,7 +108,7 @@ PROGRAM{
     1 LDI
     SWAP
   }>
-  $SampleContract2$_contract_router PROCREF:<{
+  $SampleContract2$_contract_router_internal PROCREF:<{
     OVER
     IF:<{
       32 PUSHINT
@@ -139,7 +139,7 @@ PROGRAM{
     AND
     IFJMP:<{
       2DROP
-      %$SampleContract2$_receive_empty INLINECALLDICT
+      %$SampleContract2$_internal_empty INLINECALLDICT
       TRUE
     }>
     SWAP
@@ -148,7 +148,7 @@ PROGRAM{
     IFJMP:<{
       $First$_load INLINECALLDICT
       1 4 BLKDROP2
-      $SampleContract2$_receive_binary_First INLINECALLDICT
+      $SampleContract2$_internal_binary_First INLINECALLDICT
       TRUE
     }>
     DROP
@@ -174,7 +174,7 @@ PROGRAM{
     __tact_context_sender SETGLOB
     $SampleContract2$_contract_load INLINECALLDICT
     -ROT
-    $SampleContract2$_contract_router INLINECALLDICT
+    $SampleContract2$_contract_router_internal INLINECALLDICT
     DROP
     $SampleContract2$_contract_store INLINECALLDICT
   }>

@@ -1,13 +1,14 @@
 PROGRAM{
   DECLPROC ?fun_1;
   DECLPROC ?fun_0;
-  DECLPROC ?fun_4;
   DECLPROC ?fun_3;
   DECLPROC ?fun_2;
   DECLPROC recv_internal;
-  DECLPROC ?fun_5;
+  DECLPROC ?fun_4;
   DECLPROC owner;
   DECLPROC supported_interfaces;
+  DECLPROC ?fun_5;
+  DECLPROC ?fun_6;
   ?fun_1 PROCREF:<{
     0 PUSHINT
   }>
@@ -103,7 +104,7 @@ PROGRAM{
     s0 s1 XCHG
     ?fun_1 INLINECALLDICT
   }>
-  ?fun_4 PROCREF:<{
+  ?fun_3 PROCREF:<{
     NEWC
     1 PUSHINT
     s0 s1 XCHG
@@ -247,18 +248,6 @@ PROGRAM{
     s0 s1 XCHG
     SENDRAWMSG
   }>
-  ?fun_3 PROCREF:<{
-    -1 PUSHINT
-    2 GETGLOBVAR
-    0 PUSHINT
-    ROT
-    s0 s3 XCHG
-    66 PUSHINT
-    s0 s1 XCHG
-    NULL
-    NULL
-    ?fun_4 INLINECALLDICT
-  }>
   ?fun_2 PROCREF:<{
     s1 PUSH
     <{
@@ -343,6 +332,15 @@ PROGRAM{
         STSLICER
         1 STI
         ENDC
+        -1 PUSHINT
+        2 GETGLOBVAR
+        0 PUSHINT
+        ROT
+        s0 s3 XCHG
+        66 PUSHINT
+        s0 s1 XCHG
+        NULL
+        NULL
         ?fun_3 INLINECALLDICT
       }> PUSHCONT
       <{
@@ -378,6 +376,15 @@ PROGRAM{
         STSLICER
         1 STI
         ENDC
+        -1 PUSHINT
+        2 GETGLOBVAR
+        0 PUSHINT
+        ROT
+        s0 s3 XCHG
+        66 PUSHINT
+        s0 s1 XCHG
+        NULL
+        NULL
         ?fun_3 INLINECALLDICT
       }> IFREFELSE
       -1 PUSHINT
@@ -464,12 +471,12 @@ PROGRAM{
     ENDC
     c4 POP
   }>
-  ?fun_5 PROCREF:<{
+  ?fun_4 PROCREF:<{
     s1 PUSH
   }>
   owner PROC:<{
     ?fun_0 INLINECALLDICT
-    ?fun_5 INLINECALLDICT
+    ?fun_4 INLINECALLDICT
     3 1 BLKDROP2
   }>
   supported_interfaces PROC:<{
@@ -478,5 +485,14 @@ PROGRAM{
     42980537499636128163026532310500881091 PUSHINT
     209474421377847335869795010607481022628 PUSHINT
     86142586315491086060343270784266291122 PUSHINT
+  }>
+  ?fun_5 PROC:<{
+    c4 PUSH
+    CTOS
+    1 LDI
+    s0 s1 XCHG
+  }>
+  ?fun_6 PROC:<{
+    x{697066733A2F2F516D563246787742766975345A31435152476175623954755A7164673667684C687A643551446B4859663641624782_} PUSHSLICE
   }>
 }END>c
