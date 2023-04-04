@@ -1,9 +1,9 @@
 # TACT Compilation Report
-Contract: SampleContract
-BOC Size: 538 bytes
+Contract: SampleContract2
+BOC Size: 366 bytes
 
 # Types
-Total Types: 6
+Total Types: 7
 
 ## StateInit
 TLB: `_ code:^cell data:^cell = StateInit`
@@ -16,6 +16,10 @@ Signature: `Context{bounced:bool,sender:address,value:int257,raw:^slice}`
 ## SendParameters
 TLB: `_ bounce:bool to:address value:int257 mode:int257 body:Maybe ^cell code:Maybe ^cell data:Maybe ^cell = SendParameters`
 Signature: `SendParameters{bounce:bool,to:address,value:int257,mode:int257,body:Maybe ^cell,code:Maybe ^cell,data:Maybe ^cell}`
+
+## Entry
+TLB: `entry#e4cb2e3c amountToAdd:uint32 toAddress:address = Entry`
+Signature: `Entry{amountToAdd:uint32,toAddress:address}`
 
 ## First
 TLB: `first#bec08f38 amount:uint32 myCoins:coins myBool3:bool anAddress:address = First`

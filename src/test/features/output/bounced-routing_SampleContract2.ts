@@ -187,6 +187,53 @@ function dictValueParserSendParameters(): DictionaryValue<SendParameters> {
     }
 }
 
+export type Entry = {
+    $$type: 'Entry';
+    amountToAdd: bigint;
+    toAddress: Address;
+}
+
+export function storeEntry(src: Entry) {
+    return (builder: Builder) => {
+        let b_0 = builder;
+        b_0.storeUint(3838520892, 32);
+        b_0.storeUint(src.amountToAdd, 32);
+        b_0.storeAddress(src.toAddress);
+    };
+}
+
+export function loadEntry(slice: Slice) {
+    let sc_0 = slice;
+    if (sc_0.loadUint(32) !== 3838520892) { throw Error('Invalid prefix'); }
+    let _amountToAdd = sc_0.loadUintBig(32);
+    let _toAddress = sc_0.loadAddress();
+    return { $$type: 'Entry' as const, amountToAdd: _amountToAdd, toAddress: _toAddress };
+}
+
+function loadTupleEntry(source: TupleReader) {
+    let _amountToAdd = source.readBigNumber();
+    let _toAddress = source.readAddress();
+    return { $$type: 'Entry' as const, amountToAdd: _amountToAdd, toAddress: _toAddress };
+}
+
+function storeTupleEntry(source: Entry) {
+    let builder = new TupleBuilder();
+    builder.writeNumber(source.amountToAdd);
+    builder.writeAddress(source.toAddress);
+    return builder.build();
+}
+
+function dictValueParserEntry(): DictionaryValue<Entry> {
+    return {
+        serialize: (src, buidler) => {
+            buidler.storeRef(beginCell().store(storeEntry(src)).endCell());
+        },
+        parse: (src) => {
+            return loadEntry(src.loadRef().beginParse());
+        }
+    }
+}
+
 export type First = {
     $$type: 'First';
     amount: bigint;
@@ -359,28 +406,28 @@ function dictValueParserMyStruct(): DictionaryValue<MyStruct> {
     }
 }
 
- type SampleContract_init_args = {
-    $$type: 'SampleContract_init_args';
+ type SampleContract2_init_args = {
+    $$type: 'SampleContract2_init_args';
 }
 
-function initSampleContract_init_args(src: SampleContract_init_args) {
+function initSampleContract2_init_args(src: SampleContract2_init_args) {
     return (builder: Builder) => {
         let b_0 = builder;
     };
 }
 
-async function SampleContract_init() {
-    const __code = Cell.fromBase64('te6ccgECCwEAAg4AART/APSkE/S88sgLAQIBYgIDAo7QAdDTAwFxsKMB+kABINdJgQELuvLgiCDXCwoggQT/uvLQiYMJuvLgiFRQUwNvBPhhAvhi2zxZ2zwwMMj4QwHMfwHKAMntVAQFAJWhd6ME4LnYerpZXPY9CdhzrJUKNs0E4TusalpWyPlmRadeW/vixHME4ECrgDcAzscpnLB1XI5LZYcE4TsunLVmnZbmdB0s2yjN0UkBNO1E0NQB+GPSADCRbeD4KNcLCoMJuvLgids8BgPu7aLt+yEwcCHXScIflTAg1wsf3gKOSSGCEBdXHsi6jhcx0x8BghAXVx7IuvLggdM/0gBZbBJbf+ABghC+wI84uo4a0x8BghC+wI84uvLggdMf+gDSAFUgbBNfA3/gMH/gIYIQvsCPOLrjAiGCEBdXHsi64wIBwAAHCAkAAm0AdjHTHwGCEL7Ajzi68uCB0x/6ANIA+kABINdJgQELuvLgiCDXCwoggQT/uvLQiYMJuvLgiBRDMGwUXwR/ARAx2zxsF18HfwoAYI4q+QGC8M3Q9ZZqN5IiOKaVTukYoWLMWQQJ72XwlM7oHp0LxSu0upN/2zHgkTDicACY0x8BghAXVx7IuvLggdM/0gDT//pAASDXSYEBC7ry4Igg1wsKIIEE/7ry0ImDCbry4IgB0gCBAQHXAAEB1AHQgQEB1wABMRcWFRRDMA==');
-    const __system = Cell.fromBase64('te6cckECDQEAAhgAAQHAAQEFoIcVAgEU/wD0pBP0vPLICwMCAWIFBACVoXejBOC52Hq6WVz2PQnYc6yVCjbNBOE7rGpaVsj5ZkWnXlv74sRzBOBAq4A3AM7HKZywdVyOS2WHBOE7Lpy1Zp2W5nQdLNsozdFJAo7QAdDTAwFxsKMB+kABINdJgQELuvLgiCDXCwoggQT/uvLQiYMJuvLgiFRQUwNvBPhhAvhi2zxZ2zwwMMj4QwHMfwHKAMntVAsGA+7tou37ITBwIddJwh+VMCDXCx/eAo5JIYIQF1ceyLqOFzHTHwGCEBdXHsi68uCB0z/SAFlsElt/4AGCEL7Ajzi6jhrTHwGCEL7Ajzi68uCB0x/6ANIAVSBsE18Df+Awf+AhghC+wI84uuMCIYIQF1ceyLrjAgHAAAoIBwBgjir5AYLwzdD1lmo3kiI4ppVO6RihYsxZBAnvZfCUzugenQvFK7S6k3/bMeCRMOJwARAx2zxsF18HfwkAmNMfAYIQF1ceyLry4IHTP9IA0//6QAEg10mBAQu68uCIINcLCiCBBP+68tCJgwm68uCIAdIAgQEB1wABAdQB0IEBAdcAATEXFhUUQzAAdjHTHwGCEL7Ajzi68uCB0x/6ANIA+kABINdJgQELuvLgiCDXCwoggQT/uvLQiYMJuvLgiBRDMGwUXwR/ATTtRNDUAfhj0gAwkW3g+CjXCwqDCbry4InbPAwAAm1NVzrw');
+async function SampleContract2_init() {
+    const __code = Cell.fromBase64('te6ccgECCAEAAWIAART/APSkE/S88sgLAQIBYgIDAo7QAdDTAwFxsKMB+kABINdJgQELuvLgiCDXCwoggQT/uvLQiYMJuvLgiFRQUwNvBPhhAvhi2zxZ2zwwMMj4QwHMfwHKAMntVAQFALmhd6ME4LnYerpZXPY9CdhzrJUKNs0E4TusalpWyPlmRadeW/vixHME4ECrgDcAzscpnLB1XI5LZYcE4DepO98qiy3jjqenvAqzhk0E4TsunLVmnZbmdB0s2yjN0UkBNO1E0NQB+GPSADCRbeD4KNcLCoMJuvLgids8BgFsIZSAINch3nAh10nCH5kwINcLHyD+IDDeApJbf+AhwAAh10nBIbCSW3/gAYIQvsCPOLrjAjBwBwACbQCW0x8BghC+wI84uvLggdMf+gDSAPpAASDXSYEBC7ry4Igg1wsKIIEE/7ry0ImDCbry4IgUQzBsFF8Ei5Qm91bmNpbmchj+FDDywJB/');
+    const __system = Cell.fromBase64('te6cckECCgEAAWwAAQHAAQEFocltAgEU/wD0pBP0vPLICwMCAWIFBAC5oXejBOC52Hq6WVz2PQnYc6yVCjbNBOE7rGpaVsj5ZkWnXlv74sRzBOBAq4A3AM7HKZywdVyOS2WHBOA3qTvfKost446np7wKs4ZNBOE7Lpy1Zp2W5nQdLNsozdFJAo7QAdDTAwFxsKMB+kABINdJgQELuvLgiCDXCwoggQT/uvLQiYMJuvLgiFRQUwNvBPhhAvhi2zxZ2zwwMMj4QwHMfwHKAMntVAgGAWwhlIAg1yHecCHXScIfmTAg1wsfIP4gMN4Cklt/4CHAACHXScEhsJJbf+ABghC+wI84uuMCMHAHAJbTHwGCEL7Ajzi68uCB0x/6ANIA+kABINdJgQELuvLgiCDXCwoggQT/uvLQiYMJuvLgiBRDMGwUXwSLlCb3VuY2luZyGP4UMPLAkH8BNO1E0NQB+GPSADCRbeD4KNcLCoMJuvLgids8CQACbRQImd4=');
     let builder = beginCell();
     builder.storeRef(__system);
     builder.storeUint(0, 1);
-    initSampleContract_init_args({ $$type: 'SampleContract_init_args' })(builder);
+    initSampleContract2_init_args({ $$type: 'SampleContract2_init_args' })(builder);
     const __data = builder.endCell();
     return { code: __code, data: __data };
 }
 
-const SampleContract_errors: { [key: number]: { message: string } } = {
+const SampleContract2_errors: { [key: number]: { message: string } } = {
     2: { message: `Stack undeflow` },
     3: { message: `Stack overflow` },
     4: { message: `Integer overflow` },
@@ -407,26 +454,26 @@ const SampleContract_errors: { [key: number]: { message: string } } = {
     137: { message: `Masterchain support is not enabled for this contract` },
 }
 
-export class SampleContract implements Contract {
+export class SampleContract2 implements Contract {
     
     static async init() {
-        return await SampleContract_init();
+        return await SampleContract2_init();
     }
     
     static async fromInit() {
-        const init = await SampleContract_init();
+        const init = await SampleContract2_init();
         const address = contractAddress(0, init);
-        return new SampleContract(address, init);
+        return new SampleContract2(address, init);
     }
     
     static fromAddress(address: Address) {
-        return new SampleContract(address);
+        return new SampleContract2(address);
     }
     
     readonly address: Address; 
     readonly init?: { code: Cell, data: Cell };
     readonly abi: ContractABI = {
-        errors: SampleContract_errors
+        errors: SampleContract2_errors
     };
     
     private constructor(address: Address, init?: { code: Cell, data: Cell }) {
@@ -434,17 +481,14 @@ export class SampleContract implements Contract {
         this.init = init;
     }
     
-    async send(provider: ContractProvider, via: Sender, args: { value: bigint, bounce?: boolean| null | undefined }, message: First | Second | 'Increment') {
+    async send(provider: ContractProvider, via: Sender, args: { value: bigint, bounce?: boolean| null | undefined }, message: null | First) {
         
         let body: Cell | null = null;
+        if (message === null) {
+            body = new Cell();
+        }
         if (message && typeof message === 'object' && !(message instanceof Slice) && message.$$type === 'First') {
             body = beginCell().store(storeFirst(message)).endCell();
-        }
-        if (message && typeof message === 'object' && !(message instanceof Slice) && message.$$type === 'Second') {
-            body = beginCell().store(storeSecond(message)).endCell();
-        }
-        if (message === 'Increment') {
-            body = beginCell().storeUint(0, 32).storeStringTail(message).endCell();
         }
         if (body === null) { throw new Error('Invalid message type'); }
         

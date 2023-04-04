@@ -18,7 +18,7 @@ export function writeRouter(type: TypeDescription, ctx: WriterContext) {
         ctx.append(`if (msg_bounced) {`);
         ctx.inIndent(() => {
             ctx.append(`;; Skip 0xFFFFFFFF`);
-            ctx.append(`in_msg.skip_bits(32);`);
+            ctx.append(`in_msg~skip_bits(32);`);
         });
         ctx.append(`}`);
         ctx.append();
@@ -28,6 +28,7 @@ export function writeRouter(type: TypeDescription, ctx: WriterContext) {
         ctx.append(`if (slice_bits(in_msg) >= 32) {`);
         ctx.inIndent(() => {
             ctx.append(`op = in_msg.preload_uint(32);`);
+            ctx.append(`~dump op;`);
         });
         ctx.append(`}`);
         ctx.append();

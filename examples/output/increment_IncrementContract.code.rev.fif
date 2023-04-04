@@ -326,7 +326,11 @@ PROGRAM{
   }>
   ?fun_2 PROCREF:<{
     s1 PUSH
-    s0 POP
+    <{
+      32 PUSHINT
+      SDSKIPFIRST
+    }> PUSHCONT
+    IF
     0 PUSHINT
     s1 PUSH
     SBITS
@@ -335,6 +339,9 @@ PROGRAM{
       s0 POP
       s0 PUSH
       32 PLDU
+      s0 PUSH
+      32 DEBUG
+      s0 POP
     }> PUSHCONT
     IF
     s0 s2 XCHG
@@ -403,8 +410,7 @@ PROGRAM{
       IFELSE
       s0 s1 XCHG
       -1 PUSHINT
-    }> PUSHCONT
-    IFJMP
+    }> IFJMPREF
     s1 PUSH
     1081595080 PUSHINT
     EQUAL
@@ -492,8 +498,7 @@ PROGRAM{
       IFELSE
       s0 s3 XCHG
       -1 PUSHINT
-    }> PUSHCONT
-    IFJMP
+    }> IFJMPREF
     s1 PUSH
     3801943978 PUSHINT
     EQUAL
@@ -550,8 +555,7 @@ PROGRAM{
       IFELSE
       s0 s2 XCHG
       -1 PUSHINT
-    }> PUSHCONT
-    IFJMP
+    }> IFJMPREF
     s1 PUSH
     1718153138 PUSHINT
     EQUAL
@@ -591,7 +595,8 @@ PROGRAM{
       ENDC
       ?fun_4 INLINECALLDICT
       -1 PUSHINT
-    }> IFJMPREF
+    }> PUSHCONT
+    IFJMP
     s0 POP
     0 PUSHINT
   }>

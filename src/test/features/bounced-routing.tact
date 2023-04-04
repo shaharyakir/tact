@@ -1,3 +1,8 @@
+message Entry {
+    amountToAdd: Int as uint32;
+    toAddress: Address;
+}
+
 message First {
     amount: Int as uint32;
     myCoins: Int as coins;
@@ -20,16 +25,29 @@ struct MyStruct {
 }
 
 contract SampleContract {
+    a: Int;
+
     init() {
+        self.a = 100;
     }
 
-    receive(msg: First) {
-        // do something with the First struct
+    receive() {
+        // Deploy
+    }
+
+    receive(msg: Entry) {
+        self.a = self.a - msg.amountToAdd;
+        send(SendParameters{
+            to: msg.toAddress,
+            value: ton("1"), 
+            mode: SendIgnoreErrors, 
+            bounce: true, 
+            body: First{amount: msg.amountToAdd, myCoins: 3, myBool3: false, anAddress: sender()}.toCell()
+        });
     }
     
     receive(msg: Second) {
         // do something with the Second struct
-        //let x: Int =  msg.amount_bigger;
     }
 
     receive("Increment") {
@@ -38,20 +56,33 @@ contract SampleContract {
 
     bounced(msg: Slice) {
         // the general handler, as supported today
-    }
-    
-    bounced(tst: bounced<Second>) {
-        // only the first 224 bits are populated into a partial Koko struct
-        let x: Int = tst.amount_bigger;
-        //let y: Int = tst.thisDoesNotFit; // compiler should throw
+        dump("In this other bounce!");
     }
     
     bounced(msg: bounced<First>) {
-        // only the first 224 bits are populated into a partial Shoko struct
+        dump("In bounce!");
+        // only the first 224 bits are populated into a partial First struct
         let y: Bool = msg.myBool3;
+        self.a = self.a + msg.amount;
     }
 
     // This will be supported in a future commit, and will throw if the string does not fit within a bounced message
     //bounced("Increment") {
     // }
+
+    get fun amount(): Int {
+        return self.a;
+    }
+}
+
+contract SampleContract2 {
+    init() {}
+
+    receive() {
+    }
+
+    receive(msg: First) {
+        dump("Bouncing!");
+        throw(144);
+    }
 }

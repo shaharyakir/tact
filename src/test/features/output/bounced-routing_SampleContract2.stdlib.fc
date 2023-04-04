@@ -19,3 +19,5 @@ slice __tact_verify_address(slice address) inline {
     slice raw = cs~load_msg_addr();
     return (cs, __tact_verify_address(raw));
 }
+
+() __tact_debug_str(slice value) impure asm "STRDUMP" "DROP";

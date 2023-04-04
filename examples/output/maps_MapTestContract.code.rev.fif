@@ -85,7 +85,11 @@ PROGRAM{
   }>
   ?fun_2 PROCREF:<{
     s1 PUSH
-    s0 POP
+    <{
+      32 PUSHINT
+      SDSKIPFIRST
+    }> PUSHCONT
+    IF
     0 PUSHINT
     s1 PUSH
     SBITS
@@ -94,6 +98,9 @@ PROGRAM{
       s0 POP
       s0 PUSH
       32 PLDU
+      s0 PUSH
+      32 DEBUG
+      s0 POP
     }> PUSHCONT
     IF
     s0 s2 XCHG

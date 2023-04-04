@@ -87,7 +87,11 @@ PROGRAM{
     2 SAVE
     SAMEALTSAVE
     s1 PUSH
-    s0 POP
+    <{
+      32 PUSHINT
+      SDSKIPFIRST
+    }> PUSHCONT
+    IF
     0 PUSHINT
     s1 PUSH
     SBITS
@@ -96,6 +100,9 @@ PROGRAM{
       s0 POP
       s0 PUSH
       32 PLDU
+      s0 PUSH
+      32 DEBUG
+      s0 POP
     }> PUSHCONT
     IF
     s0 s2 XCHG
@@ -210,7 +217,8 @@ PROGRAM{
       IFELSE
       s0 s6 XCHG
       -1 PUSHINT
-    }> IFJMPREF
+    }> PUSHCONT
+    IFJMP
     s1 PUSH
     3613954633 PUSHINT
     EQUAL
@@ -253,8 +261,7 @@ PROGRAM{
       IFELSE
       s0 s5 XCHG
       -1 PUSHINT
-    }> PUSHCONT
-    IFJMP
+    }> IFJMPREF
     s1 PUSH
     383013829 PUSHINT
     EQUAL
@@ -425,7 +432,8 @@ PROGRAM{
       IFELSE
       s0 s3 XCHG
       -1 PUSHINT
-    }> IFJMPREF
+    }> PUSHCONT
+    IFJMP
     s1 PUSH
     624157584 PUSHINT
     EQUAL
@@ -487,8 +495,7 @@ PROGRAM{
       IFELSE
       s0 s2 XCHG
       -1 PUSHINT
-    }> PUSHCONT
-    IFJMP
+    }> IFJMPREF
     s1 PUSH
     4276365062 PUSHINT
     EQUAL
@@ -680,9 +687,13 @@ PROGRAM{
       }> PUSHCONT
       IFELSE
       -1 PUSHINT
-    }> IFJMPREF
+    }> PUSHCONT
+    IFJMP
     s0 s1 XCHG
     0 EQINT
+    <{
+      s0 POP
+    }> PUSHCONT
     <{
       HASHSU
       33891181464710156031034046061755617033497409731940287186959295655538839105307 PUSHINT
@@ -704,11 +715,7 @@ PROGRAM{
         RETFALSE
       }> PUSHCONT
       IFJMP
-    }> PUSHCONT
-    <{
-      s0 POP
-    }> PUSHCONT
-    IFELSE
+    }> IFREFELSE
     0 PUSHINT
   }>
   recv_internal PROC:<{

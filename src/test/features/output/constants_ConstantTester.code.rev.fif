@@ -39,12 +39,23 @@ PROGRAM{
   }>
   ?fun_2 PROCREF:<{
     s1 PUSH
-    s0 POP
+    <{
+      32 PUSHINT
+      SDSKIPFIRST
+    }> PUSHCONT
+    IF
     s0 PUSH
     SBITS
-    s1 POP
     31 GTINT
-    s0 POP
+    <{
+      32 PLDU
+      32 DEBUG
+      s0 POP
+    }> PUSHCONT
+    <{
+      s0 POP
+    }> PUSHCONT
+    IFELSE
     <{
       -1 PUSHINT
     }> PUSHCONT

@@ -1009,12 +1009,13 @@ export function resolvePartialStructs(ctx: CompilerContext) {
             let remainingBits = 224;
             
             const originalType = store.get(ctx, a.name)!;
+            const newTypeName = toBounced(originalType.name);
 
             const newType: TypeDescription = {
                 kind: 'partial_struct',
                 origin: originalType.origin,
-                name: toBounced(originalType.name),
-                uid: uidForName(toBounced(originalType.name), getAllTypes(ctx)),
+                name: newTypeName,
+                uid: uidForName(newTypeName, getAllTypes(ctx)),
                 header: originalType.header,
                 tlb: null, // TODO?
                 signature: null, // TODO?
@@ -1022,7 +1023,7 @@ export function resolvePartialStructs(ctx: CompilerContext) {
                 traits: [],
                 functions: new Map(),
                 receivers: [],
-                dependsOn: [], // TODO?
+                dependsOn: originalType.dependsOn,
                 init: null,
                 ast: a,
                 interfaces: [],
@@ -1030,9 +1031,8 @@ export function resolvePartialStructs(ctx: CompilerContext) {
             };
 
             for (const f of originalType.fields) {
+                // dicts are unsupported
                 if (f.abi.type.kind !== "simple") break;
-
-                // console.log(f.abi.type.format, f.abi.type.type, a.name)
 
                 let fieldBits = f.abi.type.optional ? 1 : 0;
                 if (Number.isInteger(f.abi.type.format)) {
@@ -1044,11 +1044,10 @@ export function resolvePartialStructs(ctx: CompilerContext) {
                 } else if (f.abi.type.type === "bool") {
                     fieldBits += 1;
                 } else {
-                    // Unsupported - all others (slice, builder, nested structs)
+                    // Unsupported - all others (slice, builder, nested structs, maps)
                     break;
                 }
 
-                // TODO how to count nested structs length?    
                 if (remainingBits - fieldBits >= 0) {
                    remainingBits -= fieldBits;
                    newType.fields.push(f);
@@ -1057,7 +1056,7 @@ export function resolvePartialStructs(ctx: CompilerContext) {
                 }
             }
 
-            ctx = store.set(ctx, toBounced(a.name), newType);
+            ctx = store.set(ctx, newTypeName, newType);
         }
     }
     

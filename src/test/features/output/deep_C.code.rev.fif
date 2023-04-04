@@ -317,7 +317,11 @@ PROGRAM{
     2 SAVE
     SAMEALTSAVE
     s1 PUSH
-    s0 POP
+    <{
+      32 PUSHINT
+      SDSKIPFIRST
+    }> PUSHCONT
+    IF
     0 PUSHINT
     s1 PUSH
     SBITS
@@ -326,6 +330,9 @@ PROGRAM{
       s0 POP
       s0 PUSH
       32 PLDU
+      s0 PUSH
+      32 DEBUG
+      s0 POP
     }> PUSHCONT
     IF
     s0 s2 XCHG
@@ -336,6 +343,9 @@ PROGRAM{
     IFJMP
     s0 s1 XCHG
     0 EQINT
+    <{
+      s0 POP
+    }> PUSHCONT
     <{
       HASHSU
       s0 PUSH
@@ -355,11 +365,7 @@ PROGRAM{
         RETFALSE
       }> PUSHCONT
       IFJMP
-    }> PUSHCONT
-    <{
-      s0 POP
-    }> PUSHCONT
-    IFELSE
+    }> IFREFELSE
     0 PUSHINT
   }>
   recv_internal PROC:<{

@@ -562,6 +562,8 @@ PROGRAM{
   $IncrementContract$_contract_router PROCREF:<{
     OVER
     IF:<{
+      32 PUSHINT
+      SDSKIPFIRST
     }>
     0 PUSHINT
     OVER
@@ -571,6 +573,9 @@ PROGRAM{
       DROP
       DUP
       32 PLDU
+      DUP
+      s0 DUMP
+      DROP
     }>
     s0 s2 XCHG
     IFJMP:<{
