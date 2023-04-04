@@ -55,15 +55,14 @@ contract SampleContract {
     }
 
     bounced(msg: Slice) {
-        // the general handler, as supported today
-        dump("In this other bounce!");
+        dump("In generic bounce!");
     }
     
     bounced(msg: bounced<First>) {
         dump("In bounce!");
         // only the first 224 bits are populated into a partial First struct
         let y: Bool = msg.myBool3;
-        self.a = self.a + msg.amount;
+        self.a = self.a + msg.amount - 2;
     }
 
     // This will be supported in a future commit, and will throw if the string does not fit within a bounced message

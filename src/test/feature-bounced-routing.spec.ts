@@ -23,37 +23,13 @@ describe('feature-strings', () => {
 
         expect(await contract.getAmount()).toBe(100n)
 
-        let logger = system.log(contract.address);
-        let logger2 = system.log(contract2.address);
-
-        logger.reset();
-        logger2.reset();
-
         await contract.send(treasure, { value: toNano('10') }, {
             $$type: 'Entry',
-            amountToAdd: 3n,
+            amountToAdd: 10n,
             toAddress: contract2.address
         });
         console.log(await system.run());
-        const logs = logger.collect();
 
-
-        // function getAllIndexes(arr: string, val: string) {
-        //     var indexes = [], i = -1;
-        //     while ((i = arr.indexOf(val, i+1)) != -1){
-        //         indexes.push(i);
-        //     }
-        //     return indexes;
-        // }
-
-        // getAllIndexes(logs, "TX: ").forEach(idx => {
-        //     console.log(logs.slice(idx, idx + 1000))
-        // })
-        
-        
-        // console.log(logger2.collect())
-
-
-        expect(await contract.getAmount()).toBe(100n);
+        expect(await contract.getAmount()).toBe(98n);
     });
 });

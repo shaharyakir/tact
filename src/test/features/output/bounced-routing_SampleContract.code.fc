@@ -49,7 +49,7 @@
 (((int)), ()) $SampleContract$_receive_binary_bounce_Slice((int) $self, slice $msg) impure inline {
     var ($self'a) = $self;
     var $msg = $msg;
-    __tact_debug_str(__gen_slice_string_4d490bda2491fa054c8244ea4e31cae7ce93bf32425bd57584f4bd68785bb220());
+    __tact_debug_str(__gen_slice_string_fefa5934c8084a8158005cbd8b2e7deb88a80c3dcb44fc30c2f463d6536d67b9());
     return (($self'a), ());
 }
 
@@ -58,7 +58,7 @@
     var ($msg'amount, $msg'myCoins, $msg'myBool3) = $msg;
     __tact_debug_str(__gen_slice_string_ef49ea3006c78f082586b5ab63c9bfd3460b9197fdd194c3864c7f5456c29237());
     int $y = $msg'myBool3;
-    $self'a = ($self'a + $msg'amount);
+    $self'a = (($self'a + $msg'amount) - 2);
     return (($self'a), ());
 }
 
