@@ -218,6 +218,26 @@ Line 13, col 3:
 "
 `;
 
+exports[`resolveDescriptors should fail descriptors for case-22 1`] = `
+"<unknown>:20:3: Bounce receive function for A already exists
+Line 20, col 3:
+  19 |   
+> 20 |   bounced(msg: bounced<A>) {
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+  21 |   }
+"
+`;
+
+exports[`resolveDescriptors should fail descriptors for case-23 1`] = `
+"<unknown>:20:3: Bounce receive function for Slice already exists
+Line 20, col 3:
+  19 |   
+> 20 |   bounced(msg: Slice) {
+         ^~~~~~~~~~~~~~~~~~~~~
+  21 |   }
+"
+`;
+
 exports[`resolveDescriptors should resolve descriptors for case-0 1`] = `
 {
   "Bool": {

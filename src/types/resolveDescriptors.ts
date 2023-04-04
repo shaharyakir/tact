@@ -620,7 +620,7 @@ export function resolveDescriptors(ctx: CompilerContext) {
 
                         // Check for duplicate
                         const n = arg.type.name;
-                        if (s.receivers.find((v) => v.selector.kind === 'internal-bounce' && v.selector.name === n)) {
+                        if (s.receivers.find((v) => v.selector.kind === 'internal-bounce' && v.selector.type === n)) {
                             throwError(`Bounce receive function for ${arg.type.name} already exists`, d.ref);
                         }
                         

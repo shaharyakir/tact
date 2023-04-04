@@ -1,5 +1,6 @@
 primitive Int;
 primitive Bool;
+primitive Slice;
 
 message A {
   a: Int as uint32;
@@ -13,7 +14,9 @@ contract Test {
     
   }
   
-  bounced(src: bounced<A>) {
-    let x: Int = src.c;
+  bounced(src: Slice) {
+  }
+  
+  bounced(msg: Slice) {
   }
 }

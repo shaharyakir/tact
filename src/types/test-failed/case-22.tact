@@ -14,6 +14,9 @@ contract Test {
   }
   
   bounced(src: bounced<A>) {
-    let x: Int = src.c;
+    let x: Int = src.c; // Resolve descriptors won't fail on this
+  }
+  
+  bounced(msg: bounced<A>) {
   }
 }
