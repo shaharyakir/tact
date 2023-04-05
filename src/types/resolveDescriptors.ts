@@ -635,13 +635,15 @@ export function resolveDescriptors(ctx: CompilerContext) {
                         }
 
                         // Check for duplicate
+                        const typeRef = resolveTypeRef(ctx, arg.type);
+
                         const n = arg.type.name;
-                        if (s.receivers.find((v) => v.selector.kind === 'internal-bounce' && v.selector.type === n)) {
+                        if (s.receivers.find((v) => v.selector.kind === 'internal-bounce' && typeRefEquals(typeRef, v.selector.type))) {
                             throwError(`Bounce receive function for ${arg.type.name} already exists`, d.ref);
                         }
                         
                         s.receivers.push({
-                            selector: { kind: 'internal-bounce', name: arg.name, type: arg.type.name, isGeneric },
+                            selector: { kind: 'internal-bounce', name: arg.name, type: typeRef },
                             ast: d
                         });
                     } else {

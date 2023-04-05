@@ -105,8 +105,7 @@ export type ReceiverSelector = {
 } | {
     kind: 'internal-bounce',
     name: string,
-    type: string,
-    isGeneric: boolean
+    type: TypeRef,
 } | {
     kind: 'external-binary',
     type: string,
