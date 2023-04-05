@@ -595,15 +595,16 @@ export function resolveDescriptors(ctx: CompilerContext) {
                     } else if (d.selector.kind === 'bounce') {
                         const arg = d.selector.arg;
 
-                        if (arg.type.kind !== 'type_ref_simple') {
-                            throwError('Bounce receive function can only accept message', d.ref);
-                        }
-                        if (arg.type.optional) {
-                            throwError('Bounce receive function cannot have optional argument', d.ref);
+                        if (!(arg.type.kind === 'type_ref_simple' || arg.type.kind === "type_ref_bounced")) {
+                            throwError('Bounce receive function can only accept either Slice or bounced<T> types', d.ref);
                         }
 
                         let t = types[arg.type.name];
-                        const isGeneric = t.kind === 'primitive' && t.name === 'Slice';
+                        const isGeneric = arg.type.kind === "type_ref_simple" && t.kind === 'primitive' && t.name === 'Slice';
+
+                        if (arg.type.kind === 'type_ref_simple' && arg.type.optional) {
+                            throwError('Bounce receive function cannot have optional argument', d.ref);
+                        }
 
                         // Check type
                         if (!isGeneric) {
