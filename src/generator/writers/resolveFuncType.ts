@@ -2,7 +2,7 @@ import { getType } from "../../types/resolveDescriptors";
 import { TypeDescription, TypeRef } from "../../types/types";
 import { WriterContext } from "../Writer";
 
-export function resolveFuncType(descriptor: TypeRef | TypeDescription | string, ctx: WriterContext, optional: boolean = false): string {
+export function resolveFuncType(descriptor: TypeRef | TypeDescription | string, ctx: WriterContext, optional: boolean = false, usePartialFields: boolean = false): string {
 
     // String
     if (typeof descriptor === 'string') {
@@ -17,7 +17,7 @@ export function resolveFuncType(descriptor: TypeRef | TypeDescription | string, 
         return 'cell';
     }
     if (descriptor.kind === 'bounced') {
-        throw Error("Unimplemented");
+        return resolveFuncType(getType(ctx.ctx, descriptor.name), ctx, false, true);
     }
     if (descriptor.kind === 'void') {
         return '()';
@@ -44,11 +44,13 @@ export function resolveFuncType(descriptor: TypeRef | TypeDescription | string, 
         } else {
             throw Error('Unknown primitive type: ' + descriptor.name);
         }
-    } else if (descriptor.kind === 'struct' || descriptor.kind === 'partial_struct') {
+    } else if (descriptor.kind === 'struct') {
         if (optional || descriptor.fields.length === 0) {
             return 'tuple';
         } else {
-            return '(' + descriptor.fields.map((v) => resolveFuncType(v.type, ctx)).join(', ') + ')';
+            const fieldsToUse = usePartialFields ? descriptor.partialFields : descriptor.fields;
+            // TODO nested structs?
+            return '(' + fieldsToUse.map((v) => resolveFuncType(v.type, ctx)).join(', ') + ')';
         }
     } else if (descriptor.kind === 'contract') {
         if (optional || descriptor.fields.length === 0) {

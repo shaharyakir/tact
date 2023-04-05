@@ -4,7 +4,7 @@ import { ASTFunction, ASTInitFunction, ASTNativeFunction, ASTNode, ASTReceive, A
 export type TypeOrigin = 'stdlib' | 'user';
 
 export type TypeDescription = {
-    kind: 'struct' | 'primitive' | 'contract' | 'trait' | 'partial_struct';
+    kind: 'struct' | 'primitive' | 'contract' | 'trait';
     origin: TypeOrigin;
     name: string;
     uid: number;
@@ -12,6 +12,7 @@ export type TypeDescription = {
     tlb: string | null;
     signature: string | null;
     fields: FieldDescription[];
+    partialFields: FieldDescription[]; // A partial representation of the struct, for bounced purposes
     traits: TypeDescription[];
     functions: Map<string, FunctionDescription>;
     receivers: ReceiverDescription[];

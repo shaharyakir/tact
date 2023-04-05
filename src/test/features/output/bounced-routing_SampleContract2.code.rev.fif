@@ -45,12 +45,7 @@ PROGRAM{
       32 PLDU
     }> PUSHCONT
     IF
-    s0 s2 XCHG
-    <{
-      DROP2
-      -1 PUSHINT
-    }> PUSHCONT
-    IFJMP
+    s2 POP
     s1 PUSH
     0 EQINT
     s1 PUSH

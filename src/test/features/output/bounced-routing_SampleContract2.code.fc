@@ -70,7 +70,6 @@ _ lazy_deployment_completed() method_id {
     
     ;; Handle bounced messages
     if (msg_bounced) {
-        return (self, true);
     }
     
     ;; Receive empty message

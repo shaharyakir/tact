@@ -352,11 +352,7 @@ export function resolveStatements(ctx: CompilerContext) {
             } else if (f.selector.kind === 'internal-fallback') {
                 sctx = addVariable(f.selector.name, { kind: 'ref', name: 'Slice', optional: false }, sctx);
             } else if (f.selector.kind === 'internal-bounce') {
-                if (f.selector.isGeneric) {
-                    sctx = addVariable(f.selector.name, { kind: 'ref', name: f.selector.type, optional: false }, sctx);
-                } else {
-                    sctx = addVariable(f.selector.name, { kind: 'bounced', name: f.selector.type }, sctx);
-                }
+                sctx = addVariable(f.selector.name, f.selector.type, sctx);
             }
 
             // Process

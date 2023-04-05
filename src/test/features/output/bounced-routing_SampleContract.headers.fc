@@ -36,9 +36,6 @@ cell $First$_store_cell((int, int, int, slice) v) inline;
 ;; $Second$_load
 (slice, ((int, int, int, slice, int, (int), (int)))) $Second$_load(slice sc_0) inline_ref;
 
-;; $First$_load_bounced
-(slice, ((int, int, int))) $First$_load_bounced(slice sc_0) inline;
-
 ;; $SampleContract$_store
 builder $SampleContract$_store(builder build_0, (int) v) inline;
 
