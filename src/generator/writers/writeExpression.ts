@@ -532,6 +532,10 @@ export function writeExpression(f: ASTExpression, ctx: WriterContext): string {
             return abf.generate(ctx, [src, ...f.args.map((v) => getExpType(ctx.ctx, v))], [f.src, ...f.args], f.ref);
         }
 
+        if (src.kind === 'bounced') {
+            throw Error("Unimplemented");
+        }
+
         throwError(`Cannot call function of non - direct type: ${printTypeRef(src)} `, f.ref);
     }
 

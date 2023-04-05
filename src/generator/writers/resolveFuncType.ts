@@ -16,6 +16,9 @@ export function resolveFuncType(descriptor: TypeRef | TypeDescription | string, 
     if (descriptor.kind === 'map') {
         return 'cell';
     }
+    if (descriptor.kind === 'bounced') {
+        throw Error("Unimplemented");
+    }
     if (descriptor.kind === 'void') {
         return '()';
     }

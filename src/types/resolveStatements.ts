@@ -352,7 +352,11 @@ export function resolveStatements(ctx: CompilerContext) {
             } else if (f.selector.kind === 'internal-fallback') {
                 sctx = addVariable(f.selector.name, { kind: 'ref', name: 'Slice', optional: false }, sctx);
             } else if (f.selector.kind === 'internal-bounce') {
-                sctx = addVariable(f.selector.name, { kind: 'ref', name: toBounced(f.selector.type), optional: false }, sctx);
+                if (f.selector.isGeneric) {
+                    sctx = addVariable(f.selector.name, { kind: 'ref', name: f.selector.type, optional: false }, sctx);
+                } else {
+                    sctx = addVariable(f.selector.name, { kind: 'bounced', name: f.selector.type }, sctx);
+                }
             }
 
             // Process

@@ -16,6 +16,9 @@ export function resolveFuncTypeUnpack(descriptor: TypeRef | TypeDescription | st
     if (descriptor.kind === 'map') {
         return name;
     }
+    if (descriptor.kind === 'bounced') {
+        throw Error("Unimplemented");
+    }
     if (descriptor.kind === 'void') {
         throw Error('Void type is not allowed in function arguments: ' + name);
     }

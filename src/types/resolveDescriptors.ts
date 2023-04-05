@@ -40,6 +40,14 @@ export function resolveTypeRef(ctx: CompilerContext, src: ASTTypeRef): TypeRef {
             value: v
         };
     }
+    if (src.kind === 'type_ref_bounced') {
+        throw Error("Unimplemented");
+        // return {
+        //     kind: 'bounced',
+        //     name: src.name
+        //     // TODO resolve here the partial type?
+        // }
+    }
     throw Error('Invalid type ref');
 }
 
@@ -57,6 +65,9 @@ export function resolveTypeRefUnsafe(src: ASTTypeRef): TypeRef {
             key: src.key,
             value: src.value
         };
+    }
+    if (src.kind === 'type_ref_bounced') {
+        throw Error("Unimplemented");
     }
     throw Error('Invalid type ref');
 }
@@ -84,6 +95,9 @@ function buildTypeRef(src: ASTTypeRef, types: { [key: string]: TypeDescription }
             key: src.key,
             value: src.value
         };
+    }
+    if (src.kind === 'type_ref_bounced') {
+        throw Error("Unimplemented");
     }
 
     throw Error('Unknown type ref');
@@ -595,6 +609,7 @@ export function resolveDescriptors(ctx: CompilerContext) {
                     } else if (d.selector.kind === 'bounce') {
                         const arg = d.selector.arg;
 
+                        // TODO improve error checking
                         if (!(arg.type.kind === 'type_ref_simple' || arg.type.kind === "type_ref_bounced")) {
                             throwError('Bounce receive function can only accept either Slice or bounced<T> types', d.ref);
                         }
@@ -1022,7 +1037,6 @@ export function getAllStaticConstants(ctx: CompilerContext) {
 
 export function resolvePartialStructs(ctx: CompilerContext) {
     let ast = getRawAST(ctx);
-    const types = getAllTypes(ctx);
     const typesWithBounceFunction: { [key: string]: boolean} = {}
 
     for (const a of ast.types) {
@@ -1087,7 +1101,7 @@ export function resolvePartialStructs(ctx: CompilerContext) {
                 }
             }
 
-            ctx = store.set(ctx, newTypeName, newType);
+            // ctx = store.set(ctx, newTypeName, newType);
         }
     }
     
