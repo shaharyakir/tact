@@ -20,16 +20,6 @@ export function writeRouter(type: TypeDescription, kind: 'internal' | 'external'
         // Parse incoming message
         ctx.append();
         
-        if (internal) {
-            ctx.append(`if (msg_bounced) {`);
-            ctx.inIndent(() => {
-                ctx.append(`;; Skip 0xFFFFFFFF`);
-                ctx.append(`in_msg~skip_bits(32);`);
-            });
-            ctx.append(`}`);
-            ctx.append();
-        }
-
         ctx.append(`;; Parse incoming message`);
         ctx.append(`int op = 0;`);
         ctx.append(`if (slice_bits(in_msg) >= 32) {`);
@@ -44,6 +34,10 @@ export function writeRouter(type: TypeDescription, kind: 'internal' | 'external'
             ctx.append(`;; Handle bounced messages`);
             ctx.append(`if (msg_bounced) {`);
             ctx.inIndent(() => {
+
+                ctx.append(`;; Skip 0xFFFFFFFF`);
+                ctx.append(`in_msg~skip_bits(32);`);
+                ctx.append(`op = in_msg.preload_uint(32);`);
 
                 const nonGenericReceivers = type.receivers.filter(r => {
                     if (r.selector.kind !== "internal-bounce" || r.selector.type.kind !== 'bounced') return false;

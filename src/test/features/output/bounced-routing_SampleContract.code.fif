@@ -364,11 +364,6 @@ PROGRAM{
   $SampleContract$_contract_router_internal PROCREF:<{
     c2 SAVE
     SAMEALTSAVE
-    OVER
-    IF:<{
-      32 PUSHINT
-      SDSKIPFIRST
-    }>
     0 PUSHINT
     OVER
     SBITS
@@ -380,7 +375,11 @@ PROGRAM{
     }>
     s0 s2 XCHG
     IFJMP:<{
-      SWAP
+      NIP
+      32 PUSHINT
+      SDSKIPFIRST
+      DUP
+      32 PLDU
       3200290616 PUSHINT
       EQUAL
       IFJMP:<{
