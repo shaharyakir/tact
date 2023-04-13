@@ -136,12 +136,6 @@
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">..</span><span class="opcode">?fun_2 PROCREF:<{</span></span>
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode">2 SAVE</span></span>
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode">SAMEALTSAVE</span></span>
-            <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode">s1 PUSH</span></span>
-            <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode"><{</span></span>
-            <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">......</span><span class="opcode">32 PUSHINT</span></span>
-            <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">......</span><span class="opcode">SDSKIPFIRST</span></span>
-            <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode">}> PUSHCONT</span></span>
-            <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode">IF</span></span>
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode">0 PUSHINT</span></span>
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode">s1 PUSH</span></span>
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode">SBITS</span></span>
@@ -264,8 +258,7 @@
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">......</span><span class="opcode">IFELSE</span></span>
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">......</span><span class="opcode">s0 s8 XCHG</span></span>
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">......</span><span class="opcode">-1 PUSHINT</span></span>
-            <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode">}> PUSHCONT</span></span>
-            <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode">IFJMP</span></span>
+            <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode">}> IFJMPREF</span></span>
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode">s1 PUSH</span></span>
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode">3613954633 PUSHINT</span></span>
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode">EQUAL</span></span>
@@ -374,8 +367,7 @@
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">......</span><span class="opcode">IFELSE</span></span>
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">......</span><span class="opcode">s0 s6 XCHG</span></span>
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">......</span><span class="opcode">-1 PUSHINT</span></span>
-            <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode">}> PUSHCONT</span></span>
-            <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode">IFJMP</span></span>
+            <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode">}> IFJMPREF</span></span>
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode">s1 PUSH</span></span>
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode">2809746751 PUSHINT</span></span>
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode">EQUAL</span></span>
@@ -559,7 +551,8 @@
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">......</span><span class="opcode">IFELSE</span></span>
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">......</span><span class="opcode">s0 s3 XCHG</span></span>
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">......</span><span class="opcode">-1 PUSHINT</span></span>
-            <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode">}> IFJMPREF</span></span>
+            <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode">}> PUSHCONT</span></span>
+            <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode">IFJMP</span></span>
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode">s1 PUSH</span></span>
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode">4276365062 PUSHINT</span></span>
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode">EQUAL</span></span>
@@ -617,8 +610,7 @@
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">......</span><span class="opcode">IFELSE</span></span>
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">......</span><span class="opcode">s0 s2 XCHG</span></span>
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">......</span><span class="opcode">-1 PUSHINT</span></span>
-            <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode">}> PUSHCONT</span></span>
-            <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode">IFJMP</span></span>
+            <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode">}> IFJMPREF</span></span>
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode">s1 PUSH</span></span>
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode">1683777913 PUSHINT</span></span>
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode">EQUAL</span></span>
@@ -777,9 +769,6 @@
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode">s0 s1 XCHG</span></span>
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode">0 EQINT</span></span>
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode"><{</span></span>
-            <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">......</span><span class="opcode">s0 POP</span></span>
-            <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode">}> PUSHCONT</span></span>
-            <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode"><{</span></span>
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">......</span><span class="opcode">HASHSU</span></span>
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">......</span><span class="opcode">33891181464710156031034046061755617033497409731940287186959295655538839105307 PUSHINT</span></span>
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">......</span><span class="opcode">EQUAL</span></span>
@@ -802,7 +791,11 @@
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">........</span><span class="opcode">RETFALSE</span></span>
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">......</span><span class="opcode">}> PUSHCONT</span></span>
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">......</span><span class="opcode">IFJMP</span></span>
-            <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode">}> IFREFELSE</span></span>
+            <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode">}> PUSHCONT</span></span>
+            <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode"><{</span></span>
+            <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">......</span><span class="opcode">s0 POP</span></span>
+            <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode">}> PUSHCONT</span></span>
+            <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode">IFELSE</span></span>
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">....</span><span class="opcode">0 PUSHINT</span></span>
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">..</span><span class="opcode">}></span></span>
             <span class="line-uncovered"><span class="gas"></span><span class="count"></span><span class="padding">..</span><span class="opcode">recv_internal PROC:<{</span></span>
