@@ -45,60 +45,61 @@ export function writeRouter(type: TypeDescription, kind: 'internal' | 'external'
             ctx.append(`if (msg_bounced) {`);
             ctx.inIndent(() => {
 
-                // const nonGenericReceivers = type.receivers.filter(r => {
-                //     if (r.selector.kind !== "internal-bounce") return false;
-                //     const allocation = getType(ctx.ctx, r.selector.type);
-                //     return !(allocation.origin === "stdlib" && allocation.name === "Slice");
-                // });
+                const nonGenericReceivers = type.receivers.filter(r => {
+                    if (r.selector.kind !== "internal-bounce" || r.selector.type.kind !== 'bounced') return false;
+                    const allocation = getType(ctx.ctx, r.selector.type.name);
+                    return !(allocation.origin === "stdlib" && allocation.name === "Slice");
+                });
                 
-                // const genericReceiver = type.receivers.find(r => {
-                //     if (r.selector.kind !== "internal-bounce") return false;
-                //     const allocation = getType(ctx.ctx, r.selector.type);
-                //     return allocation.origin === "stdlib" && allocation.name === "Slice";
-                // });
+                const genericReceiver = type.receivers.find(r => {
+                    if (r.selector.kind !== "internal-bounce" || r.selector.type.kind !== 'ref') return false;
+                    const allocation = getType(ctx.ctx, r.selector.type.name);
+                    return allocation.origin === "stdlib" && allocation.name === "Slice";
+                });
                 
-                // for (const r of nonGenericReceivers) {
-                //     const selector = r.selector;
-                //     if (selector.kind !== "internal-bounce") throw Error('Invalid selector type: ' + selector.kind);
+                for (const r of nonGenericReceivers) {
+                    const selector = r.selector;
+                    if (selector.kind !== "internal-bounce" || selector.type.kind !== 'bounced') throw Error('Invalid selector type: ' + selector.kind);
 
-                //     let allocation = getType(ctx.ctx, selector.type);
+                    let allocation = getType(ctx.ctx, selector.type.name);
                     
-                //     if (!allocation.header) {
-                //         throw Error('Invalid allocation: ' + selector.type);
-                //     }
+                    if (!allocation.header) {
+                        throw Error('Invalid allocation: ' + selector.type.name);
+                    }
 
-                //     ctx.append();
-                //     ctx.append(`;; Bounced handler for ${selector.type} message`);
-                //     ctx.append(`if (op == ${allocation.header}) {`);
-                //     ctx.inIndent(() => {
-                //         // Read message
-                //         ctx.append(`var msg = in_msg~${ops.readerBounced(selector.type, ctx)}();`);
+                    ctx.append();
+                    ctx.append(`;; Bounced handler for ${selector.type} message`);
+                    ctx.append(`if (op == ${allocation.header}) {`);
+                    ctx.inIndent(() => {
+                        if (selector.kind !== "internal-bounce" || selector.type.kind !== 'bounced') throw Error('Invalid selector type: ' + selector.kind);
+                        // Read message
+                        ctx.append(`var msg = in_msg~${ops.readerBounced(selector.type.name, ctx)}();`);
 
-                //         // Execute function
-                //         ctx.append(`self~${ops.receiveTypeBounce(type.name, selector.type)}(msg);`);
+                        // Execute function
+                        ctx.append(`self~${ops.receiveTypeBounce(type.name, selector.type.name)}(msg);`);
 
-                //         // Exit
-                //         ctx.append('return (self, true);');
-                //     })
-                //     ctx.append(`}`);
-                // }
+                        // Exit
+                        ctx.append('return (self, true);');
+                    })
+                    ctx.append(`}`);
+                }
 
-                // if (genericReceiver) {
-                //     const selector = genericReceiver.selector;
-                //     if (selector.kind !== "internal-bounce") throw Error('Invalid selector type: ' + selector.kind);
+                if (genericReceiver) {
+                    const selector = genericReceiver.selector;
+                    if (selector.kind !== "internal-bounce" || selector.type.kind !== 'ref') throw Error('Invalid selector type: ' + selector.kind);
 
-                //     ctx.append();
-                //     ctx.append(`;; Bounced handler for ${selector.type} message (Generic)`);
+                    ctx.append();
+                    ctx.append(`;; Bounced handler for ${selector.type} message (Generic)`);
 
-                //     // Execute function
-                //     ctx.append(`self~${ops.receiveTypeBounce(type.name, selector.type)}(in_msg);`);
+                    // Execute function
+                    ctx.append(`self~${ops.receiveTypeBounce(type.name, selector.type.name)}(in_msg);`);
 
-                //     // Exit
-                //     ctx.append('return (self, true);');
-                // } else {
-                //     ctx.append(`return (self, true);`);
+                    // Exit
+                    ctx.append('return (self, true);');
+                } else {
+                    ctx.append(`return (self, true);`);
 
-                // }
+                }
                 
             });
             ctx.append(`}`);

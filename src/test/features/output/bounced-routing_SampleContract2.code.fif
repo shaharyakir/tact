@@ -123,7 +123,11 @@ PROGRAM{
       DUP
       32 PLDU
     }>
-    s2 POP
+    s0 s2 XCHG
+    IFJMP:<{
+      2DROP
+      TRUE
+    }>
     OVER
     0 EQINT
     OVER

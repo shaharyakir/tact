@@ -40,6 +40,14 @@ cell $First$_store_cell((int, int, int, slice) v) inline {
     return $First$_store(begin_cell(), v).end_cell();
 }
 
+(slice, ((int, int, int))) $First$_load_bounced(slice sc_0) inline {
+    throw_unless(129, sc_0~load_uint(32) == 3200290616);
+    var v'amount = sc_0~load_uint(32);
+    var v'myCoins = sc_0~load_coins();
+    var v'myBool3 = sc_0~load_int(1);
+    return (sc_0, (v'amount, v'myCoins, v'myBool3));
+}
+
 ((int, int, int, slice)) $First$_constructor_amount_myCoins_myBool3_anAddress(int amount, int myCoins, int myBool3, slice anAddress) inline {
     return (amount, myCoins, myBool3, anAddress);
 }

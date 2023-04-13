@@ -30,6 +30,9 @@ builder $First$_store(builder build_0, (int, int, int, slice) v) inline;
 ;; $First$_store_cell
 cell $First$_store_cell((int, int, int, slice) v) inline;
 
+;; $First$_load_bounced
+(slice, ((int, int, int))) $First$_load_bounced(slice sc_0) inline;
+
 ;; $MyStruct$_load
 (slice, ((int))) $MyStruct$_load(slice sc_0) inline;
 

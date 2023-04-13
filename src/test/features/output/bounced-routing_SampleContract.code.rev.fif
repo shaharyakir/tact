@@ -243,7 +243,38 @@ PROGRAM{
       32 PLDU
     }> PUSHCONT
     IF
-    s2 POP
+    s0 s2 XCHG
+    <{
+      s0 s1 XCHG
+      3200290616 PUSHINT
+      EQUAL
+      <{
+        32 LDU
+        s0 s1 XCHG
+        3200290616 PUSHINT
+        EQUAL
+        129 THROWIFNOT
+        32 LDU
+        LDGRAMS
+        1 LDI
+        3 1 BLKSWAP
+        1 3 BLKDROP2
+        DROP2
+        x{496E20626F756E6365218} PUSHSLICE
+        STRDUMP
+        s0 POP
+        ADD
+        -2 ADD
+        -1 PUSHINT
+      }> PUSHCONT
+      IFJMP
+      s0 POP
+      x{496E2067656E6572696320626F756E63652182_} PUSHSLICE
+      STRDUMP
+      s0 POP
+      -1 PUSHINT
+    }> PUSHCONT
+    IFJMP
     s1 PUSH
     0 EQINT
     s1 PUSH
@@ -345,6 +376,9 @@ PROGRAM{
     s0 s1 XCHG
     0 EQINT
     <{
+      s0 POP
+    }> PUSHCONT
+    <{
       HASHSU
       93093333132076440750103890131866374745660412111105226855661378207494015626164 PUSHINT
       EQUAL
@@ -353,11 +387,7 @@ PROGRAM{
         RETFALSE
       }> PUSHCONT
       IFJMP
-    }> PUSHCONT
-    <{
-      s0 POP
-    }> PUSHCONT
-    IFELSE
+    }> IFREFELSE
     0 PUSHINT
   }>
   recv_internal PROC:<{

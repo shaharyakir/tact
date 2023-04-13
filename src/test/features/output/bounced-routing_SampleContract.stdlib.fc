@@ -28,6 +28,8 @@ forall X -> X __tact_not_null(X x) inline {
     throw_if(128, null?(x)); return x;
 }
 
+() __tact_debug_str(slice value) impure asm "STRDUMP" "DROP";
+
 slice __tact_context_get_sender() inline {
     return __tact_context_sender;
 }
